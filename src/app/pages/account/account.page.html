@@ -1,0 +1,205 @@
+<ion-header class="ion-no-border">
+  <div class="header" style="height: 60px;">
+    <app-header-simple [menuHeight]="menuHeight" [wherePage]="wherePage"></app-header-simple>
+  </div>
+  <p class="title">Profile</p>
+
+  <div class="borderheader"></div>
+  <div class="information">
+    <div class="information-avt">
+      <img [src]="account.avtUrl" alt="">
+    </div>
+    <div class="information_profile">
+      <div class="information_profile-name">
+        <p>{{account.name}}</p>
+        <img src="./assets/icon/edit.svg" alt="" style="width:12px;height:12px" (click)="editInfo()">
+      </div>
+      <div class="information_profile-type">
+        <span>{{account.position}}</span>
+      </div>
+      <ion-row class="information_profile-product">
+        <ion-col size="7" class="incard">
+          <p>{{cartProduct.length}}</p>
+          <span>Product in card</span>
+        </ion-col>
+        <ion-col size="5" class="bought">
+          <p>{{boughtProduct.length}}</p>
+          <span>Purchased</span>
+        </ion-col>
+      </ion-row>
+    </div>
+
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="container" style="margin-top: 120px ;">
+    <div class="propStyle">
+      <div class="style" (click)="onChangeType('cart')">
+        <p [ngClass]="{'active' : type === 'cart'}">Cart</p>
+      </div>
+      <div class="style" (click)="onChangeType('bought')">
+        <p [ngClass]="{'active' : type === 'bought'}">Bought</p>
+      </div>
+      <div class="style" (click)="onChangeType('yourOrder')">
+        <p [ngClass]="{'active' : type === 'yourOrder'}">Your Order</p>
+      </div>
+    </div>
+    <div [ngSwitch]="type" class="project">
+      <div *ngSwitchCase="'cart'" class="project-ground">
+        <div *ngIf="!loading;else loadingtemplate">
+          <div *ngFor="let item of cartProduct;index as i" class="product" (click)="chooseBook(item)">
+            <div class="product-checkbox">
+              <ion-checkbox slot="end" [(ngModel)]="item.isCheck"></ion-checkbox>
+            </div>
+            <div class="product_information">
+              <div class="product_information-img">
+                <img [src]=item.img alt="">
+              </div>
+              <div class="product_information-item">
+                <div class="name">{{item.name}}</div>
+                <div class="prop">Price: {{item.price}} đ</div>
+                <div class="prop">Rating: <ng-rating-bar disabled="true" [value]="item.rating" [ratingCount]="5"
+                    colorActive="#FFC107"
+                    [styles]="{fontSize: innerWidth > 320 ? '18px' : '12px', margin: '-5px'}">
+                  </ng-rating-bar>
+                </div>
+              </div>
+              <div class="product-total">
+                Total: {{item.price * item.quantity}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #loadingtemplate>
+          <div *ngFor="let item of [1,2,3,4]" class="product" (click)="chooseBook(item)">
+            <div class="product_information">
+              <div class="product_information-img">
+                <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
+              </div>
+              <div class="product_information-item">
+                <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+                <!-- <div class="name">{{item.name}}</div> -->
+                <ion-skeleton-text animated style="width: 80%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+                <div class="prop">Rating: <ng-rating-bar disabled="true" [value]="item.rating" [ratingCount]="5"
+                    colorActive="#FFC107" [styles]="{fontSize: '18px', margin: '-5px'}"></ng-rating-bar>
+                </div>
+              </div>
+              <div class="product-total">
+                <ion-skeleton-text animated style="width: 100px; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <div *ngSwitchCase="'bought'" class="project-ground">
+        <div *ngIf="!loading;else loadingtemplate">
+          <div *ngFor="let item of boughtProduct;index as i" class="product" (click)="chooseBook(item)">
+            <div class="product-checkbox">
+              <ion-checkbox slot="end" [(ngModel)]="item.isCheck"></ion-checkbox>
+            </div>
+            <div class="product_information">
+              <div class="product_information-img">
+                <img [src]=item.img alt="">
+              </div>
+              <div class="product_information-item">
+                <div class="name">{{item.name}}</div>
+                <div class="prop">Price: {{item.price}} đ</div>
+                <div class="prop">Rating: <ng-rating-bar disabled="true" [value]="item.rating" [ratingCount]="5"
+                    colorActive="#FFC107" [styles]="{fontSize: '18px', margin: '-5px'}"></ng-rating-bar>
+                </div>
+              </div>
+              <div class="product-total">
+                Total: {{item.price * item.quantity}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-template #loadingtemplate>
+          <div *ngFor="let item of [1,2]" class="product" (click)="chooseBook(item)">
+            <div class="product_information">
+              <div class="product_information-img">
+                <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
+              </div>
+              <div class="product_information-item">
+                <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+                <!-- <div class="name">{{item.name}}</div> -->
+                <ion-skeleton-text animated style="width: 80%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+                <div class="prop">Rating: <ng-rating-bar disabled="true" [value]="item.rating" [ratingCount]="5"
+                    colorActive="#FFC107" [styles]="{fontSize: '18px', margin: '-5px'}"></ng-rating-bar>
+                </div>
+              </div>
+              <div class="product-total">
+                <ion-skeleton-text animated style="width: 100px; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+      <div *ngSwitchCase="'yourOrder'" class="project-ground">
+        <div *ngIf="!loading;else loadingtemplate">
+          <div *ngFor="let item of listBillProduct;index as i" class="product" (click)="billDetail(item)">
+            <div class="product_information" style="width:100%">
+              <div *ngIf="item.status === 'done';else nowTemplate" class="product_information-img done">
+                <img src="./assets/icon/check.svg" alt="done" class="icon">
+              </div>
+              <ng-template #nowTemplate>
+                <div class="product_information-img now">
+                  <img src="./assets/icon/box.svg" alt="now" class="icon">
+                </div>
+              </ng-template>
+              <div class="product_information-item">
+                <div class="name">{{item.name}}</div>
+                <div class="prop">Total: {{item.total}} đ</div>
+                <div class="prop">Order daily: {{item.orderDaily}}</div>
+              </div>
+              <div *ngIf="item.status==='done';else delivering" class="product-total" style="color: #1EA22B;">
+                Delivered
+              </div>
+              <ng-template #delivering>
+                <div class="product-total" style="color: #E6CC06;">
+                  Delivering
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <ng-template #loadingtemplate>
+          <div *ngFor="let item of [1,2,3]" class="product" (click)="chooseBook(item)">
+            <div class="product_information">
+              <div class="product_information-img">
+                <ion-skeleton-text  animated style="width: 100%; height: 100%;"></ion-skeleton-text>
+              </div>
+              <div class="product_information-item">
+                <div class="name">
+                  <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+                </div>
+                <div class="prop">
+                  <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+                </div>
+                <div class="prop">
+                  <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+                </div>
+              </div>
+              <div class="product-total">
+                <ion-skeleton-text animated style="width: 50px; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <div class="container-fluid">
+    <ion-row class="groupButton">
+      <ion-col *ngIf="chooseAll;else notChoose" size="4" class="selectAll" (click)="checkAll()">Select All</ion-col>
+      <ng-template #notChoose>
+        <ion-col size="4" class="selectAll" (click)="checkAll()">Deselect All</ion-col>
+      </ng-template>
+      <ion-col size="4" class="payment" (click)="payment()">Payment</ion-col>
+      <ion-col size="4" class="delete" (click)="delete()">Delete</ion-col>
+    </ion-row>
+  </div>
+</ion-footer>

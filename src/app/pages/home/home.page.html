@@ -1,0 +1,66 @@
+<ion-header class="ion-no-border">
+  <app-header
+  [menuHeight]="menuHeight" [wherePage]="wherePage"></app-header>
+</ion-header>
+<ion-content>
+  <ion-slides [options]="option">
+    <ion-slide class="slider_item">
+      <div class="slider_item-image">
+        <img src="../../../assets/images/Slider-1.jpg" alt="slide-item">
+      </div>
+      <ion-label class="slider_item-left h7">Book is my life</ion-label>
+      <ion-text class="slider_item-text left">
+        <h2 class="h1">Book</h2>
+        <p class="h9">It is a long established fact that a reader will be distracted by the readable content 
+          of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less 
+          normal distribution of letters</p>
+      </ion-text>
+      <ion-label class="slider_item-right h7 animationRight">Scroll to more >></ion-label>
+    </ion-slide>
+    <ion-slide class="slider_item">
+      <div class="slider_item-image">
+        <img src="assets/images/Slider-2.jpg" alt="slide-item">
+      </div>
+      <ion-label class="slider_item-left h7">Book is my life</ion-label>
+      <ion-text class="slider_item-text right">
+        <h2 class="h1">We are</h2>
+        <p class="h9">It is a long established fact that a reader will be distracted by the readable content of 
+          a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less 
+          normal distribution of letters</p>
+      </ion-text>
+      <ion-label class="slider_item-right h7 animationRight"> Scroll to more >></ion-label>
+    </ion-slide>
+    <ion-slide class="slider_item">
+      <div class="slider_item-image">
+        <img src="assets/images/Slider-3.jpg" alt="slide-item">
+      </div>
+      <ion-label class="slider_item-left h7">Book is my life</ion-label>
+      <ion-text class="slider_item-text left">
+        <h2 class="h1">Suggest</h2>
+        <p class="h9">It is a long established fact that a reader will be distracted by the readable content 
+          of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less 
+          normal distribution of letters</p>
+      </ion-text>
+      <ion-label class="slider_item-right h7 animationRight">Scroll to more >></ion-label>
+    </ion-slide>
+    <ion-slide class="slider_item">
+      <div class="slider_item-image">
+        <img src="assets/images/Slider-4.jpg" alt="slide-item">
+      </div>
+      <ion-label class="slider_item-left h7">Book is my life</ion-label>
+      <ion-text class="slider_item-text center">
+        <h2 class="h1">Have fun</h2>
+        <p class="h9">It is a long established fact that a reader will be distracted by the readable content 
+          of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less 
+          normal distribution of letters</p>
+      </ion-text>
+      <ion-label class="slider_item-right back-to-top h7" (click)="backToTop()">Back to top >></ion-label>
+    </ion-slide>
+  </ion-slides>
+  <div class="music" [class.rotate360]="rotate360" (click)="rotateActive()">
+    <img src="assets/images/music.png" alt="">
+    <audio #audioOption>
+      <source src='assets/images/music_home.mp3' type="audio/mp3">
+  </audio>
+  </div>
+</ion-content>

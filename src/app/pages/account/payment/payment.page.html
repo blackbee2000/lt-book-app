@@ -1,0 +1,99 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Back" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <p class="h3 titlePage" style="text-align: right;padding-right: 20px;margin: 0;">Payment</p>
+  <div class="information" (click)="editInfo()">
+    <div class="information-name h5 titlePage">
+      {{inforDelivery.name}}
+      <img src="./assets/icon/edit.svg" alt="" style="width:12px;height:12px" (click)="editInfo()">
+    </div>
+    <div class="information-decrip">
+      <img src="./assets/icon/telephone.svg" alt="iconPhone" class="icon">
+      <p class="h9">{{inforDelivery.phone}}</p>
+    </div>
+    <div class="information-decrip">
+      <img src="./assets/icon/pin.svg" alt="iconPhone" class="icon">
+      <p class="h9">{{inforDelivery.address}}</p>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    <p class="h6 title" style="float: right;margin-right: -20px; padding:5px 25px 5px 5px; text-align: right;">Your Book
+    </p>
+    <div *ngFor="let item of listBook;index as i" class="product">
+      <div class="product-img contain-img">
+        <img [src]="item.img" alt="">
+      </div>
+      <div class="product_info">
+        <div class="product_info-name h7" style="font-family: 'ESB';">
+          {{item.name}}
+        </div>
+        <div class="product_info-decrip h8">
+          <p>Price: {{item.price}}</p>
+          <p>Rating: <ng-rating-bar [value]="item.rating" [ratingCount]="5" colorActive="#FFC107"
+              [styles]="{fontSize: '18px', margin: '-5px'}"></ng-rating-bar>
+          </p>
+        </div>
+      </div>
+      <div class="quantity">
+        <span class="h10">Quantity</span>
+        <div class="quantity_input">
+          <div class="quantity_input-icon"><span class="mid" style="height: 30px;" (click)="minus(item)">-</span></div>
+          <ion-input type="number" [(ngModel)]=item.quantity min="0" max="20"></ion-input>
+          <div class="quantity_input-icon"><span class="mid" style="height: 30px;" (click)="plus(item)">+</span></div>
+        </div>
+        <p class="total h10">Total: {{item.price * item.quantity}}</p>
+      </div>
+    </div>
+    <p class="h6 title">Payment Methods</p>
+
+    <div class="payment">
+      <div class="payment_select">
+        <div class="payment_option" (click)="choseMethod()">
+          <div class="payment_option-name h6">
+            <span class="h6">Payment Via VNPay</span>
+            <span class="h8" style="font-family: EN;">There is a surcharge: 2%</span>
+          </div>
+          <div class="payment_option-checkIcon">
+            <ion-checkbox [(ngModel)]="vnPay"></ion-checkbox>
+          </div>
+        </div>
+        <div class="payment_option" (click)="choseMethod()">
+          <div class="payment_option-name h6">
+            <span class="h6">Payment Via Cash Money</span>
+            <span class="h8" style="font-family: EN;">No extra fees</span>
+          </div>
+          <div class="payment_option-checkIcon">
+            <ion-checkbox [(ngModel)]="!vnPay"></ion-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="totalMoney">
+      <div class="money">
+        <p>Total</p>
+        <p>{{total}}đ</p>
+      </div>
+      <div class="money">
+        <p>Surcharge</p>
+        <p>{{(total * 2) / 100}}đ</p>
+      </div>
+      <div *ngIf="vnPay" class="money">
+        <p>Delivery charges</p>
+        <p>{{deliveryCharges}}đ</p>
+      </div>
+      <div class="money">
+        <p>Total amount</p>
+        <p>{{totalAmount}}đ</p>
+      </div>
+    </div>
+    <div class="button h5" (click)=payment()>
+      Payment
+    </div>
+  </div>
+</ion-content>

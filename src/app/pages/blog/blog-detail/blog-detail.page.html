@@ -1,0 +1,40 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="blog"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="h5">Blog Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="blog-detail">
+  <div class="blog-detail_content">
+    <h1>{{blogDetail.name}}</h1>
+    <div class="day-share">
+      <ion-text>{{blogDetail.day}}</ion-text>
+      <button (click)="share()">Share <ion-icon name="share-social-outline"></ion-icon></button>
+    </div>
+    <img [src]="blogDetail.imageUrl" alt="image-book-detail">
+    <p>{{blogDetail.paragraph}}</p>
+  </div>
+  <div class="blog-detail_relate-blog">
+    <ion-text>Related articles</ion-text>
+    <div class="blog">
+      <ion-card class="blog_item" *ngFor="let item of listBlogRelate" (click)="showBlogRelate(item)">
+        <div class="blog_item-image">
+          <img [src]="item.imageUrl" alt="blog-image">
+        </div>
+        <div class="blog_item-grey"></div>
+        <div class="blog_item-description">
+          <ion-text>{{item.name}}</ion-text>
+          <p class="h10">{{item.content}}</p>
+          <p class="h10" style="text-align: right; padding-right: 10px;">{{item.day}}</p>
+        </div>
+        <img class="blog_item-flag" src="assets/images/flag.png" alt="flag">
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
+<div class="loading" *ngIf="loading">
+  <div class="loading_shadow"></div>
+  <div class="loading_ring"><div></div><div></div><div></div><div></div></div>
+</div>

@@ -1,0 +1,106 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="product"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="h5">Product Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="product-detail">
+    <div class="product-detail_info">
+      <div class="product-detail_info-image">
+        <img [src]="productDetail.imageURL" alt="product-detail-image">
+      </div>
+      <div class="product-detail_info-right">
+        <h2>{{productDetail.name}}</h2>
+        <p class="h7">Price: {{productDetail.price}}d</p>
+        <div class="rating-product">
+          <p class="h7" style="margin-right: 5px;">Rating:</p>
+          <ng-rating-bar 
+            [value]="productDetail.rating" 
+            [ratingCount]="5" 
+            colorActive = "#FFC107"
+            [styles]="{fontSize: '22px', margin: '-5px'}"
+          ></ng-rating-bar>
+        </div>
+        <p class="h7">Sold: {{productDetail.sold}}</p>
+        <button class="h7" (click)="handleBuyProduct()">
+          Buy Now
+        </button>
+      </div>
+    </div>
+    <div class="product-detail_description">
+      <ion-text class="h6">Decription</ion-text>
+      <p class="h6">{{productDetail.description}}</p>
+    </div>
+    <div class="product-detail_artist">
+      <ion-text class="h6">Artist</ion-text>
+      <div class="product-detail_artist-avatar">
+        <img src="assets/images/avatar.jpg" alt="avatar-artist">
+      </div>
+      <p class="h6">{{productDetail.artist}}</p>
+      <p class="h8">{{productDetail.birthday}}</p>
+    </div>
+    <div class="product-detail_comment">
+      <div class="product-detail_comment-list">
+        <div class="cmt-item">
+          <div class="cmt-item_comment">
+            <div class="cmt-item_comment-image">
+              <img src="assets/images/avt.jpg" alt="cmt">
+            </div>
+            <div class="cmt-item_comment-content h6">
+              Bài viết hay thế nhờ
+            </div>
+          </div>
+          <div class="cmt-item_reply">
+            <p class="h10" style="margin-right: 20px;">5 phút</p>
+            <p class="h10">Phản hồi</p>
+          </div>
+          <div class="cmt-item_replyCmt">
+            <div class="cmt-item_comment-image">
+              <img src="assets/images/avt.jpg" alt="cmt">
+            </div>
+            <div class="cmt-item_comment-content h6">
+              Bài viết hay thế nhờ
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="product-detail_comment-write">
+        <div class="write-comment">
+          <div class="write-comment_image">
+            <img src="assets/images/avatar.jpg" alt="cmt">
+          </div>
+          <div class="write-comment_input">
+            <ion-input placeholder="Enter your comment"></ion-input>
+            <ion-icon name="send"></ion-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="product-detail_relate">
+      <ion-label class="h4">Sản phẩm liên quan</ion-label>
+      <ion-slides [options]="slideOpts">
+        <ion-slide *ngFor="let item of listProductRelate" (click)="handleProductRelate(item)">
+          <div class="relate-item-image">
+            <img [src]="item.imageURL" alt="relate-book">
+          </div>
+          <ion-text>{{item.name}}</ion-text>
+        </ion-slide>
+      </ion-slides>
+    </div> 
+  </div>
+</ion-content>
+<div class="loading" *ngIf="loading">
+  <div class="loading_shadow"></div>
+  <div class="loading_ring"><div></div><div></div><div></div><div></div></div>
+</div>
+<div [class.shadow]="shadow"></div>
+<div class="popup" [class.popupActive]="popup">
+  <p class="h4">Add book to cart?</p>
+  <div class="btn-control">
+    <button (click)="handleControlButton('cancel')">Cancel</button>
+    <button (click)="handleControlButton('ok')">Ok</button>
+  </div>
+</div>

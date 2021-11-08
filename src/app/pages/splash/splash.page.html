@@ -1,0 +1,43 @@
+<ion-content fullscreen scroll-y="false">
+    <ion-slides class="intro" pager #introSlides (ionSlideWillChange)="slideOnChange($event)">
+        <ion-slide>
+            <div class="image">
+                <img src="assets/images/intro1.jpg" alt="intro-image">
+            </div>
+            <div class="text-top">
+                <h1 class="h1">Hello!</h1>
+                <ion-text class="h6">lorem is numebs <br> sdsadasdasdadasdadasdasdasdddddddddddsddddddddddddddddddddddd</ion-text>
+            </div>
+            <p class="bottom">Wellcome to LTbook <br> A place with a variety of interesting books</p>
+            <ion-text class="text-footer h6">lorem is numebs <br> sdsadasdasdadasdadasdasdasdddddddddd</ion-text>
+        </ion-slide>
+        <ion-slide>
+            <div class="image">
+                <img src="assets/images/intro2.jpg" alt="intro-image">
+            </div>
+            <div class="text-top right">
+                <h1 class="h1">Can we help you?</h1>
+                <ion-text class="h6">lorem is numebs <br> sdsadasdasdadasdadasdasdasdddddddddddsddddddddddddddddddddddd</ion-text>
+            </div>
+            <p class="bottom">Wellcome to LTbook <br> A place with a variety of interesting books</p>
+            <ion-text class="text-footer h6">lorem is numebs <br> sdsadasdasdadasdadasdasdasdddddddddd</ion-text>
+        </ion-slide>
+        <ion-slide>
+            <div class="image">
+                <img src="assets/images/intro3.jpg" alt="intro-image">
+            </div>
+            <div class="text-top center">
+                <h1 class="h1">Get Started</h1>
+            </div>
+            <p class="bottom">Wellcome to LTbook <br> A place with a variety of interesting books</p>
+            <ion-text class="text-footer h6">lorem is numebs <br> sdsadasdasdadasdadasdasdasdddddddddd</ion-text>
+        </ion-slide>
+    </ion-slides>
+
+    <div class="footer">
+        <button class="ion-float-right" (click)="swipeNext()">
+          <ion-text *ngIf="!isEnd" class="b6">Next</ion-text>
+          <ion-text *ngIf="isEnd" class="b6">Get Started</ion-text>
+        </button>
+      </div>
+</ion-content>

@@ -1,0 +1,153 @@
+.loginPage {
+    position: relative;
+    .blurBackground {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      .img {
+        position: absolute;
+        object-fit: cover;
+      }
+      .imgOne {
+        width: 247px;
+        height: 295px;
+        z-index: -1;
+        top: 138px;
+        right: -10px;
+      }
+      .imgTwo {
+        z-index: -2;
+        top: 466px;
+        left: -20px;
+        width: 318px;
+        height: 202px;
+      }
+    }
+    ion-header {
+      background-color: transparent;
+      background: rgba(0, 0, 0, 0.7);
+    }
+    ion-content {
+      --background: transparent;
+      font-family: "AV";
+      background: rgba(0, 0, 0, 0.7);
+      .form {
+        width: 85%;
+        margin: 0 auto;
+        font-size: 20px;
+        color: white;
+        margin-top: 40px;
+        .title {
+          font-size: 45px;
+          text-align: center;
+          margin-bottom: 42px;
+        }
+        .form-control {
+          margin-bottom: 15px;
+          position: relative;
+          ion-input {
+            --background: white;
+            height: 50px;
+            border-radius: 5px;
+            text-align: left;
+            color: black;
+            font-size: 15px;
+            --padding-start: 40px !important;
+          }
+          img {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            z-index: 2;
+            transform: translate(0, -50%);
+          }
+          &:nth-last-child(2) {
+            margin-bottom: 40px;
+          }
+        }
+        .button {
+          width: 100%;
+          height: 50px;
+          background-color: #cdb018;
+          margin-bottom: 15px;
+          border-radius: 5px;
+          text-align: center;
+          padding: 12px 0;
+        }
+      }
+      .wellcome {
+        position: absolute;
+        color: white;
+        font-size: 15px;
+        line-height: 20px;
+        margin-top: 70px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+  @media only screen and (min-width: 320px) and (max-width: 413px) {
+    .loginPage {
+      ion-content {
+        .wellcome {
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+  @media only screen and (max-width: 320px) {
+    .loginPage {
+      .blurBackground {
+        .imgOne {
+          width: 227px;
+          height: 275px;
+          top: 108px;
+          right: -20px;
+        }
+        .imgTwo {
+          z-index: -2;
+          top: 406px;
+          left: -30px;
+          width: 308px;
+          height: 202px;
+        }
+      }
+      ion-header {
+        height: 50px;
+      }
+      ion-content {
+        .form {
+          width: 90%;
+          font-size: 16px;
+          margin-top: 30px;
+          .title {
+            font-size: 35px;
+          }
+          .form-control {
+            margin-bottom: 10px;
+            ion-input {
+              height: 45px;
+            }
+            img {
+              width: 18px;
+              height: 18px;
+            }
+            &:nth-last-child(2) {
+              margin-bottom: 35px;
+            }
+          }
+          .button {
+            height: 45px;
+            margin-bottom: 15px;
+          }
+        }
+        .wellcome {
+          font-size: 12px;
+          margin-top: 15px;
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,204 @@
+ion-header {
+  background-color: black;
+  font-family: "AV";
+  .title {
+    color: white;
+    text-align: right;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 30px;
+    padding: 0 20px;
+  }
+  .information {
+    position: absolute;
+    bottom: -75%;
+    display: flex;
+    background-color: white;
+    width: 90%;
+    height: 121px;
+    left: 50%;
+    transform: translateX(-50%);
+    align-items: flex-end;
+    padding: 0;
+    border-radius: 10px;
+    box-shadow: 0px 4px 11px rgba(0, 0, 0, 0.25);
+    &-avt {
+      width: 35%;
+      height: 171px;
+      overflow: hidden;
+      border-radius: 15px;
+      margin-bottom: 18px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    p {
+      margin: 0;
+    }
+    &_profile {
+      margin-left: 5%;
+      width: 65%;
+      &-name {
+        font-size: 20px;
+        width: 90%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      &-type {
+        color: #c0c0c0;
+        font-size: 12px;
+      }
+      &-product {
+        ion-col {
+          padding-left: 0;
+          p {
+            font-size: 20px;
+          }
+          span {
+            color: #c0c0c0;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+  .borderheader {
+    position: absolute;
+    bottom: -50px;
+    width: 100%;
+    height: 50px;
+    background-color: black;
+    border-radius: 0px 0px 10px 10px;
+  }
+}
+ion-content {
+  font-family: "AV";
+  position: relative;
+  .propStyle {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    .style {
+      p {
+        padding: 0 10px;
+        margin: 0 15px 0 0;
+        font-size: 16px;
+        overflow: hidden;
+        position: relative;
+        color: #c0c0c0;
+        transition: 0.5s;
+        &::before {
+          position: absolute;
+          content: "";
+          background: black;
+          height: 2.5px;
+          width: 15px;
+          bottom: 0;
+          transform: translateX(-25px);
+          transition: 0.5s;
+        }
+      }
+      .active {
+        color: black;
+        transition: 0.5s;
+        &::before {
+          transform: translateX(0);
+          transition: 0.5s;
+        }
+      }
+    }
+  }
+  .product {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    &-checkbox {
+      width: 4%;
+      margin-right: 2%;
+      ion-checkbox {
+        width: 15px;
+        height: 15px;
+      }
+    }
+    &_information {
+      width: 94%;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 10px;
+      color: white;
+      border-radius: 5px;
+      box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.25);
+      margin-bottom: 10px;
+      &-img {
+        width: 53px;
+        height: 61px;
+        border-radius: 5px;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .done {
+        position: relative;
+        background: linear-gradient(90deg, #23c933 0%, #1d9e2a 86.79%);
+      }
+      .icon {
+        position: absolute;
+        top: 50%;
+        width: 25px;
+        height: 25px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .now {
+        position: relative;
+        background: linear-gradient(90deg, #ffd600 0%, #dec907 86.79%);
+      }
+      &-item {
+        color: black;
+        margin-left: 18px;
+        width: 50%;
+        .name {
+          font-family: "ESB";
+          font-size: 15px;
+        }
+        .prop {
+          font-family: "EN";
+          font-size: 12px;
+        }
+      }
+    }
+    &-total {
+      color: black;
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      font-family: "EN";
+      font-size: 12px;
+    }
+  }
+}
+ion-footer {
+  height: 60px;
+  z-index: 1;
+  .groupButton {
+    width: 100%;
+    ion-col {
+      text-align: center;
+      font-size: 16px;
+      font-family: "AV";
+    }
+    .payment {
+      background-color: black;
+      color: white;
+      border-radius: 25px;
+    }
+  }
+}

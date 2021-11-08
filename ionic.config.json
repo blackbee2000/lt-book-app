@@ -1,0 +1,7 @@
+{
+  "name": "lt-book-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

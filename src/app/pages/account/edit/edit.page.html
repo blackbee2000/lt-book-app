@@ -1,0 +1,105 @@
+<ion-content>
+  <div class="blurBackground">
+    <img src="./assets/images/intro2.jpg" alt="image1" class="img">
+  </div>
+  <ion-header class="ion-no-border">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button text="" defaultHref="/"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Edit Info</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <div class="container">
+      <form [formGroup]="formData" class="form--container">
+        <div class="form">
+          <div class="form_control">
+            <div class="form_control-label h7">
+              <p>Fullname:</p>
+            </div>
+            <div class="form_control-input">
+              <ion-input type="text" formControlName="name">
+              </ion-input>
+            </div>
+            <ng-container *ngFor="let validation of formMessage['name']">
+              <div
+                class="form-error-message"
+                *ngIf="formSubmitted && formData.get('name')['hasError'](validation.type)"
+              >
+                <ion-icon name="warning"></ion-icon>
+                <span>{{validation.message}}</span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="form_control">
+            <div class="form_control-label h7">
+              <p>Phone:</p>
+            </div>
+            <div class="form_control-input">
+              <ion-input type="tel" formControlName="phone">
+              </ion-input>
+            </div>
+            <ng-container *ngFor="let validation of formMessage['phone']">
+              <div
+                class="form-error-message"
+                *ngIf="formSubmitted && formData.get('phone')['hasError'](validation.type)"
+              >
+                <ion-icon name="warning"></ion-icon>
+                <span>{{validation.message}}</span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="form_control">
+            <div class="form_control-label h7">
+              <p>Email:</p>
+            </div>
+            <div class="form_control-input">
+              <ion-input type="text" formControlName="email">
+              </ion-input>
+            </div>
+            <ng-container *ngFor="let validation of formMessage['email']">
+              <div
+                class="form-error-message"
+                *ngIf="formSubmitted && formData.get('email')['hasError'](validation.type)"
+              >
+                <ion-icon name="warning"></ion-icon>
+                <span>{{validation.message}}</span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="form_control">
+            <div class="form_control-label h7">
+              <p>Address:</p>
+            </div>
+            <div class="form_control-input">
+              <ion-input type="text" formControlName="address">
+              </ion-input>
+            </div>
+            <ng-container *ngFor="let validation of formMessage['address']">
+              <div
+                class="form-error-message"
+                *ngIf="formSubmitted && formData.get('address')['hasError'](validation.type)"
+              >
+                <ion-icon name="warning"></ion-icon>
+                <span>{{validation.message}}</span>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </form>
+      <div class="form">
+        <div class="form_control" *ngIf="isEdit === 'delivery'">
+          <div class="form_control-label h7">
+            <p>Note:</p>
+          </div>
+          <div class="form_control-input">
+            <ion-textarea type="text" [(ngModel)]="contentNote" rows="4"></ion-textarea>
+          </div>
+        </div>
+      </div>
+      <div class="button h5" (click)="save()">Save</div>
+    </div>
+  </ion-content>
+</ion-content>

@@ -1,0 +1,164 @@
+.loginPage {
+  position: relative;
+  .blurBackground {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    .img {
+      position: absolute;
+      object-fit: cover;
+    }
+    .imgOne {
+      width: 247px;
+      height: 295px;
+      z-index: -1;
+      top: 138px;
+      left: -20px;
+    }
+    .imgTwo {
+      z-index: -2;
+      top: 336px;
+      left: -20px;
+      width: 318px;
+      height: 302px;
+    }
+  }
+  ion-header {
+    background-color: transparent;
+    background: rgba(0, 0, 0, 0.7);
+  }
+  ion-content {
+    --background: transparent;
+    font-family: "AV";
+    --padding-top: 60px;
+    background: rgba(0, 0, 0, 0.7);
+    p {
+      font-size: 15px;
+      line-height: 20px;
+      color: white;
+    }
+    .form {
+      width: 85%;
+      margin: 0 auto;
+      font-size: 20px;
+      color: white;
+      margin-top: 100px;
+      .title {
+        font-size: 45px;
+        text-align: right;
+        margin-bottom: 42px;
+      }
+      .form-control {
+        margin-bottom: 15px;
+        position: relative;
+        ion-input {
+          --background: white;
+          height: 50px;
+          border-radius: 5px;
+          text-align: center;
+          color: black;
+          font-size: 15px;
+        }
+        img {
+          width: 20px;
+          height: 20px;
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          z-index: 2;
+          transform: translate(0, -50%);
+        }
+        &:nth-child(3) {
+          margin-bottom: 35px;
+        }
+      }
+      .button {
+        width: 100%;
+        height: 50px;
+        background-color: #cdb018;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        text-align: center;
+        padding: 12px 0;
+      }
+    }
+    .wellcome {
+      transform: rotate(-90deg);
+      position: absolute;
+      top: 75px;
+      left: -45px;
+    }
+    .signIn {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}
+@media only screen and (max-width: 320px) {
+  .loginPage {
+    position: relative;
+    .blurBackground {
+      .imgOne {
+        width: 227px;
+        height: 275px;
+        top: 108px;
+        left: -30px;
+      }
+      .imgTwo {
+        z-index: -2;
+        top: 206px;
+        left: -30px;
+        width: 308px;
+        height: 292px;
+      }
+    }
+    ion-header {
+      height: 50px;
+    }
+    ion-content {
+      --background: transparent;
+      font-family: "AV";
+      overflow-y: hidden;
+      p {
+        font-size: 12px;
+      }
+      .form {
+        width: 90%;
+        font-size: 16px;
+        margin-top: 70px;
+        .title {
+          font-size: 35px;
+        }
+        .form-control {
+          margin-bottom: 10px;
+          ion-input {
+            height: 45px;
+          }
+          img {
+            width: 18px;
+            height: 18px;
+          }
+          &:nth-child(3) {
+            margin-bottom: 25px;
+          }
+        }
+        .button {
+          height: 45px;
+          margin-bottom: 10px;
+        }
+      }
+      .wellcome {
+        transform: rotate(-90deg);
+        position: absolute;
+        top: 75px;
+        left: -35px;
+      }
+      .signIn {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+    }
+  }
+}

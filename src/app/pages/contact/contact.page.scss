@@ -1,0 +1,53 @@
+.contactPage {
+  position: relative;
+  .blurBackground {
+    position: absolute;
+    width: 100%;
+    height: 110%;
+    background: rgba(0, 0, 0, 0.5);
+    .img {
+      position: absolute;
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+  }
+  ion-header {
+    background-color: transparent;
+  }
+  ion-content {
+    --background: transparent;
+    font-family: "AV";
+    --color: white;
+    .container {
+      .title {
+        font-size: 30px;
+        margin-bottom: 44px;
+      }
+      .form_control{
+          margin-bottom: 12px;
+          .form_control-label p{
+            font-size: 15px;
+            margin: 0;
+          }
+          .form_control-input{
+            border-bottom: 1px solid #CDB017;
+            ion-input{
+              --color:white;
+            }
+          }
+      }
+      .button{
+        width: 100%;
+        height: 50px;
+        background-color: #cdb018;
+        margin-top: 98px;
+        font-size: 20px;
+        border-radius: 5px;
+        text-align: center;
+        padding: 12px 0;
+      }
+    }
+  }
+}

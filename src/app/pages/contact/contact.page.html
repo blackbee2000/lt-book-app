@@ -1,0 +1,51 @@
+<ion-content class="contactPage">
+  <div class="blurBackground">
+    <img src="./assets/images/contact.jpg" alt="image1" class="img">
+  </div>
+  <ion-header class="ion-no-border">
+    <app-header-simple [menuHeight]="menuHeight" [wherePage]="wherePage"></app-header-simple>
+  </ion-header>
+  <ion-content [scrollEvents]="true">
+    <div class="container">
+      <div class="title">Contact</div>
+      <div class="form_control">
+        <div class="form_control-label">
+          <p>Fullname:</p>
+        </div>
+        <div class="form_control-input">
+          <ion-input type="text">
+          </ion-input>
+        </div>
+      </div>
+      <div class="form_control">
+        <div class="form_control-label">
+          <p>Phone:</p>
+        </div>
+        <div class="form_control-input">
+          <ion-input type="number">
+          </ion-input>
+        </div>
+      </div>
+      <div class="form_control">
+        <div class="form_control-label">
+          <p>Email:</p>
+        </div>
+        <div class="form_control-input">
+          <ion-input type="text">
+          </ion-input>
+        </div>
+      </div>
+      <div class="form_control">
+        <div class="form_control-label">
+          <p>Note:</p>
+        </div>
+        <div class="form_control-input">
+          <ion-textarea type="text" rows="4"></ion-textarea>
+        </div>
+      </div>
+      <div class="button">
+        Send
+      </div>
+    </div>
+  </ion-content>
+</ion-content>

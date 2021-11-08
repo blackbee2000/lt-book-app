@@ -1,0 +1,228 @@
+$typography: "1" 50px, "2" 38px, "3" 30px, "4" 24px, "5" 20px, "6" 16px 22px,
+  "7" 15px, "8" 14px, "9" 13px, "10" 12px;
+
+@each $name, $size in $typography {
+  .h#{$name} {
+    font-size: $size;
+  }
+}
+
+// @media only screen and (min-width: 768px) {
+//   @each $name, $size, $height in $typography {
+//     .h#{$name} {
+//       font-size: $size + 8px !important;
+//       line-height: $height + 8px !important;
+//     }
+//   }
+// }
+
+@font-face {
+  font-family: "PB";
+  src: url(../assets/font/ProximaNova-Bold.woff2) format("woff2"),
+    url(../assets/font/ProximaNova-Bold.woff) format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "PBR";
+  src: url(../assets/font/ProximaNova-Regular.woff2) format("woff2"),
+    url(../assets/font/ProximaNova-Regular.woff) format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "PE";
+  src: url(../assets/font/ProximaNovaA-Extrabld.woff2) format("woff2"),
+    url(../assets/font/ProximaNovaA-Extrabld.woff) format("woff");
+  font-weight: 800;
+  font-style: normal;
+  font-display: fallback;
+}
+
+/* fontweb */
+@font-face {
+  font-family: "AV";
+  src: url(../assets/font/Avenir-Heavy.woff2) format("woff2"),
+    url(../assets/font/Avenir-Heavy.woff) format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: fallback;
+}
+@font-face {
+  font-family: "EI";
+  src: url(../assets/font/ElleBaskerville-Italic.woff2) format("woff2"),
+    url(../assets/font/ElleBaskerville-Italic.woff) format("woff");
+  font-weight: normal;
+  font-style: italic;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "EBI";
+  src: url(../assets/font/ElleBaskerville-BoldItalic.woff2) format("woff2"),
+    url(../assets/font/ElleBaskerville-BoldItalic.woff) format("woff");
+  font-weight: bold;
+  font-style: italic;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "EB";
+  src: url(../assets/font/ElleBaskerville-Bold.woff2) format("woff2"),
+    url(../assets/font/ElleBaskerville-Bold.woff) format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "EN";
+  src: url(../assets/font/ElleBaskerville.woff2) format("woff2"),
+    url(../assets/font/ElleBaskerville.woff) format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "ESBI";
+  src: url(../assets/font/ElleBaskerville-SemiBoldItalic.woff2) format("woff2"),
+    url(../assets/font/ElleBaskerville-SemiBoldItalic.woff) format("woff");
+  font-weight: 600;
+  font-style: italic;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "ESB";
+  src: url(../assets/font/ElleBaskerville-SemiBold.woff2) format("woff2"),
+    url(../assets/font/ElleBaskerville-SemiBold.woff) format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "DNA";
+  src: url(../assets/font/DomaineDispNarBlack.woff2) format("woff2"),
+    url(../assets/font/DomaineDispNarBlack.woff) format("woff");
+  font-weight: 900;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "DEB";
+  src: url(../assets/font/DomaineDispNarExtrabold.woff2) format("woff2"),
+    url(../assets/font/DomaineDispNarExtrabold.woff) format("woff");
+  font-weight: 800;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "DNI";
+  src: url(../assets/font/DomaineDispNarBlack-Italic.woff2) format("woff2"),
+    url(../assets/font/DomaineDispNarBlack-Italic.woff) format("woff");
+  font-weight: 900;
+  font-style: italic;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "DNBI";
+  src: url(../assets/font/DomaineDispNar-BoldItalic.woff2) format("woff2"),
+    url(../assets/font/DomaineDispNar-BoldItalic.woff) format("woff");
+  font-weight: bold;
+  font-style: italic;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "DNBB";
+  src: url(../assets/font/DomaineDispNar-Bold.woff2) format("woff2"),
+    url(../assets/font/DomaineDispNar-Bold.woff) format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "DM";
+  src: url(../assets/font/DomaineDispNarMedium.woff2) format("woff2"),
+    url(../assets/font/DomaineDispNarMedium.woff) format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "DR";
+  src: url(../assets/font/DomaineDispNar-Regular.woff2) format("woff2"),
+    url(../assets/font/DomaineDispNar-Regular.woff) format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "DEBI";
+  src: url(../assets/font/DomaineDispNarExtrabold-Italic.woff2) format("woff2"),
+    url(../assets/font/DomaineDispNarExtrabold-Italic.woff) format("woff");
+  font-weight: 800;
+  font-style: italic;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "DMI";
+  src: url(../assets/font/DomaineDispNarMedium-Italic.woff2) format("woff2"),
+    url(../assets/font/DomaineDispNarMedium-Italic.woff) format("woff");
+  font-weight: 500;
+  font-style: italic;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "DSB";
+  src: url(../assets/font/DomaineDispNarSemibold.woff2) format("woff2"),
+    url(../assets/font/DomaineDispNarSemibold.woff) format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "DRI";
+  src: url(../assets/font/DomaineDispNar-RegularItalic.woff2) format("woff2"),
+    url(../assets/font/DomaineDispNar-RegularItalic.woff) format("woff");
+  font-weight: normal;
+  font-style: italic;
+  font-display: fallback;
+}
+
+@font-face {
+  font-family: "DSBI";
+  src: url(../assets/font/DomaineDispNarSemibold-Italic.woff2) format("woff2"),
+    url(../assets/font/DomaineDispNarSemibold-Italic.woff) format("woff");
+  font-weight: 600;
+  font-style: italic;
+  font-display: fallback;
+}
+@font-face {
+  font-family: 'Dorsa';
+  src: url('../assets/font/Dorsa-Regular.woff2') format('woff2'),
+      url('../assets/font/Dorsa-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: fallback;
+}
+@keyframes Signature {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

@@ -1,0 +1,161 @@
+ion-header {
+  background-color: black;
+  color: white;
+  position: relative;
+  height: 175px;
+  ion-toolbar {
+    --background: transparent;
+    height: 60px;
+    padding: 5px 10px;
+    ion-back-button {
+      --color: white;
+    }
+  }
+  .information {
+    position: absolute;
+    padding: 10px 20px;
+    background: white;
+    color: black;
+    width: 90%;
+    left: 50%;
+    bottom: -40px;
+    transform: translateX(-50%);
+    box-shadow: 0px 4px 11px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    &-name {
+      margin-bottom: 10px;
+    }
+    &-decrip {
+      display: flex;
+      align-items: center;
+      font-family: "DR";
+      margin-bottom: 5px;
+      letter-spacing: 0.03em;
+      .icon {
+        width: 12px;
+        height: 12px;
+        margin-right: 10px;
+      }
+      p {
+        margin: 0;
+      }
+    }
+  }
+}
+ion-content {
+  position: relative;
+  .container {
+    margin-top: 50px;
+  }
+  .title {
+    width: 60%;
+    font-family: "AV";
+    margin: 0 0 20px -20px;
+    padding: 5px 5px 5px 25px;
+    background-color: black;
+    color: white;
+  }
+  .product {
+    width: 100%;
+    padding: 10px;
+    height: 85px;
+    margin-bottom: 10px;
+    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: "EN";
+    position: relative;
+    &-img {
+      width: 20%;
+      height: 100%;
+    }
+    &_info {
+      width: 75%;
+      &-name {
+      }
+      p {
+        margin: 0;
+      }
+    }
+    .quantity {
+      position: absolute;
+      width: 80px;
+      right: 10px;
+      bottom: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &_input {
+        display: flex;
+        align-items: center;
+        &-icon {
+          position: relative;
+          background-color: black;
+          color: white;
+          text-align: center;
+          border-radius: 50%;
+          width: 21px;
+          height: 21px;
+        }
+        ion-input {
+          --padding-start: 9px !important;
+          --padding-top: 10px !important;
+          --padding-end:10px !important;
+          text-align: center;
+        }
+      }
+    }
+    .total {
+      margin: 0;
+    }
+  }
+  .payment {
+    &_option {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.25);
+      &-name {
+        font-family: "ESB";
+        display: flex;
+        flex-direction: column;
+      }
+      &-checkIcon {
+        height: 20px;
+        ion-checkbox {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+  .totalMoney {
+    font-family: "ESB";
+    margin-bottom: 20px;
+    width: 90%;
+    margin: 0 auto;
+    p {
+      margin: 0;
+      text-align: right;
+    }
+    .money{
+        display: flex;
+        justify-content: space-between;
+    }
+  }
+  .button{
+      height: 50px;
+      border-radius: 5px;
+      background: black;
+      color: white;
+      font-family: 'AV';
+      text-align: center;
+      padding: 10px;
+      margin: 10px 0;
+  }
+}
