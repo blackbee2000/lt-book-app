@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { ApiService } from 'src/app/services';
 
 @Component({
   selector: 'app-product',
@@ -198,16 +199,25 @@ export class ProductPage implements OnInit {
   ];
   isClick: any = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router,private apiService: ApiService) {}
 
   ngOnInit() {
     this.menuHeight = window.innerHeight;
     this.labelTypeBook = 'TextBook';
     this.listProduct = this.listProduct1;
     this.menuHeight = window.innerHeight;
+    this.getBookInType();
     this.changeLoading();
   }
-
+  async getBookInType(){
+    const typeBook = {
+      type: this.labelTypeBook
+    };
+    await this.apiService.getBook(typeBook).subscribe((res)=>{
+      // console.log(res);
+      this.listProduct = res.data;
+    });
+  }
   goDetail(product) {
     this.loading = true;
     setTimeout(() => {
@@ -223,26 +233,32 @@ export class ProductPage implements OnInit {
     switch (item.name) {
       case 'TextBook':
         this.labelTypeBook = item.name;
+        this.getBookInType();
         this.listProduct = this.listProduct1;
         break;
       case 'Novel':
         this.labelTypeBook = item.name;
+        this.getBookInType();
         this.listProduct = this.listProduct2;
         break;
       case 'Comic':
         this.labelTypeBook = item.name;
+        this.getBookInType();
         this.listProduct = this.listProduct1;
         break;
       case 'Poem':
         this.labelTypeBook = item.name;
+        this.getBookInType();
         this.listProduct = this.listProduct2;
         break;
       case 'Thriller':
         this.labelTypeBook = item.name;
+        this.getBookInType();
         this.listProduct = this.listProduct1;
         break;
       case 'Short':
         this.labelTypeBook = item.name;
+        this.getBookInType();
         this.listProduct = this.listProduct2;
         break;
     }

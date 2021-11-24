@@ -9,7 +9,10 @@
     </div>
     <ng-template #ngMenu>
       <div class="login">
-        <p (click)="login()">Login</p>
+        <p *ngIf="!infoAccount;else logined" (click)="login()">Login</p>
+        <ng-template #logined>
+          <p (click)="info()">Account</p>
+        </ng-template>
         <img src="./assets/icon/user1.svg" />
       </div>
     </ng-template>

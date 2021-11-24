@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { ApiService } from 'src/app/services';
 
 @Component({
   selector: 'app-blog',
@@ -8,55 +9,24 @@ import { NavigationExtras, Router } from '@angular/router';
 })
 export class BlogPage implements OnInit {
   menuHeight;
-  wherePage='blog';
+  wherePage = 'blog';
   loading: any = false;
   loadingSkeleton: any = false;
-  listBlog: any = [
-    {
-      imageUrl: 'assets/images/book.jpg',
-      name: 'Hôm nay là thứ mấy?',
-      content: 'Em không là nàng thơ, em là nàng kiểu lỡ bước',
-      paragraph: 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      day: 'Thu, 9 2021',
-    },
-    {
-      imageUrl: 'assets/images/book2.jpg',
-      name: 'Hôm nay là thứ mấy?',
-      content: 'Em không là nàng thơ, em là nàng kiểu lỡ bước',
-      paragraph: 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      day: 'Thu, 9 2021',
-    },
-    {
-      imageUrl: 'assets/images/book3.jpg',
-      name: 'Hôm nay là thứ mấy?',
-      content: 'Em không là nàng thơ, em là nàng kiểu lỡ bước',
-      paragraph: 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      day: 'Thu, 9 2021',
-    },
-    {
-      imageUrl: 'assets/images/book2.jpg',
-      name: 'Hôm nay là thứ mấy?',
-      content: 'Em không là nàng thơ, em là nàng kiểu lỡ bước',
-      paragraph: 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      day: 'Thu, 9 2021',
-    },
-    {
-      imageUrl: 'assets/images/book3.jpg',
-      name: 'Hôm nay là thứ mấy?',
-      content: 'Em không là nàng thơ, em là nàng kiểu lỡ bước',
-      paragraph: 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      day: 'Thu, 9 2021',
-    }
-  ];
+  listBlog: any = [];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private apiService: ApiService) {}
 
   ngOnInit() {
     this.menuHeight = window.innerHeight;
     this.changeLoading();
+    this.getBlog();
   }
-
-  goDetail(blog){
+  getBlog() {
+    this.apiService.getBlog().subscribe((res) => {
+      this.listBlog = res;
+    });
+  }
+  goDetail(blog) {
     this.loading = true;
     setTimeout(() => {
       this.loading = false;
@@ -67,7 +37,7 @@ export class BlogPage implements OnInit {
     }, 1200);
   }
 
-  changeLoading(){
+  changeLoading() {
     setTimeout(() => {
       this.loadingSkeleton = true;
     }, 1000);

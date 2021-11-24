@@ -3,6 +3,7 @@ import { filter } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { StorageService } from 'src/app/services/storage.service';
+import { ApiService } from 'src/app/services';
 @Component({
   selector: 'app-account',
   templateUrl: './account.page.html',
@@ -14,21 +15,8 @@ export class AccountPage implements OnInit {
   wherePage = 'account';
   type = 'cart';
   activePopup = false;
-  loading=true;
-  account = {
-    name: 'Josh Germany',
-    position: 'Member',
-    address: '9/4 Tân Tiến, XTĐ, HM',
-    phone: '0344153437',
-    email: 'trung08052000@gmail.com',
-    avtUrl: './assets/images/avt.jpg',
-    inforDelivery: {
-      name: 'Jack97',
-      phone: '0153236523',
-      address: '123456 5 trịu',
-      note: 'J97 5 trịu',
-    },
-  };
+  loading = true;
+  account: any;
   cartProduct = [
     {
       id: 1,
@@ -260,26 +248,41 @@ export class AccountPage implements OnInit {
   constructor(
     private router: Router,
     private storage: StorageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private apiService: ApiService
   ) {}
 
   async ngOnInit() {
     this.loadingProduct();
-    this.route.queryParams.subscribe(async () => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        const currentNavigation = this.router.getCurrentNavigation();
-        if (currentNavigation.extras.state.isEdit) {
-          this.account =
-            (await this.storage.getObject('AccountInformation')) || {};
-        }
-      }
-    });
     this.menuHeight = window.innerHeight;
-    this.innerWidth=window.innerWidth;
-    await this.storage.setObject('AccountInformation', this.account);
+    this.innerWidth = window.innerWidth;
+    const info = localStorage.getItem('infoAccount') || null;
+    this.account = JSON.parse(info);
+    console.log('account', this.account);
+    if (!this.account) {
+      this.getInfo();
+    }
+  }
+  async getInfo() {
+    const token = await JSON.parse(localStorage.getItem('token'));
+    await this.apiService.getInfoUser(token?.access_token).subscribe(
+      (res) => {
+        localStorage.setItem('infoAccount', JSON.stringify(this.account));
+        console.log(res);
+        this.account = res.data;
+      },
+      (err) => {
+        this.apiService
+          .refreshToken(token?.refreshToken)
+          .subscribe((response) => {
+            localStorage.setItem('token', JSON.stringify(response));
+            this.getInfo();
+          });
+      }
+    );
   }
   onChangeType(type) {
-    this.loading=true;
+    this.loading = true;
     this.loadingProduct();
     this.type = type;
   }
@@ -362,9 +365,9 @@ export class AccountPage implements OnInit {
     };
     this.router.navigateByUrl('/account/edit', navigationExtras);
   }
-  loadingProduct(){
-    setTimeout(()=>{
+  loadingProduct() {
+    setTimeout(() => {
       this.loading = false;
-    },1500);
+    }, 1500);
   }
 }

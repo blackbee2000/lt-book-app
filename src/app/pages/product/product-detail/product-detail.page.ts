@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
+import { ApiService } from 'src/app/services';
 
 @Component({
   selector: 'app-product-detail',
@@ -212,15 +213,20 @@ export class ProductDetailPage implements OnInit {
       birthday: '20/09/2000',
     },
   ];
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute,private apiService: ApiService) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
         const currentNavigation = this.router.getCurrentNavigation();
         const product = currentNavigation.extras.state.item;
-        this.productDetail = product;
+        this.getBookDetails(product?.id);
       }
+    });
+  }
+  async getBookDetails(id){
+    await this.apiService.getBookById(id).subscribe((res)=>{
+      this.productDetail = res.data;
     });
   }
 

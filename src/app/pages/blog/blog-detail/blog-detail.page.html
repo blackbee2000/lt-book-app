@@ -8,13 +8,13 @@
 </ion-header>
 <ion-content class="blog-detail">
   <div class="blog-detail_content">
-    <h1>{{blogDetail.name}}</h1>
+    <h1>{{blogDetail.title}}</h1>
     <div class="day-share">
-      <ion-text>{{blogDetail.day}}</ion-text>
+      <ion-text>{{blogDetail.createAt}}</ion-text>
       <button (click)="share()">Share <ion-icon name="share-social-outline"></ion-icon></button>
     </div>
-    <img [src]="blogDetail.imageUrl" alt="image-book-detail">
-    <p>{{blogDetail.paragraph}}</p>
+    <img [src]="blogDetail.imgUrl" alt="image-book-detail">
+    <p>{{blogDetail.content}}</p>
   </div>
   <div class="blog-detail_relate-blog">
     <ion-text>Related articles</ion-text>

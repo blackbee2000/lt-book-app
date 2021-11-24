@@ -28,7 +28,7 @@
     <h3 class="h3">{{labelTypeBook}}</h3>
     <div class="list-product_item">
       <ion-card *ngFor="let item of listProduct" (click)="goDetail(item)">
-        <img [src]="item.imageURL" alt="product-item">
+        <img [src]="item.imageBook" alt="product-item">
         <div class="info-product">
           <h4 class="h6">{{item.name}}</h4>
           <p class="h9">Price: {{item.price}}d</p>

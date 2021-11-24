@@ -1,4 +1,3 @@
-
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 @Component({
@@ -10,9 +9,12 @@ export class HeaderSimpleComponent implements OnInit {
   @Input() menuHeight: number;
   @Input() wherePage: string;
   showMenu = false;
-  constructor(private router: Router) { }
+  infoAccount;
+  constructor(private router: Router) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.infoAccount = await localStorage.getItem('infoAccount' || null);
+  }
   clickMenu() {
     this.showMenu = !this.showMenu;
   }
@@ -22,10 +24,23 @@ export class HeaderSimpleComponent implements OnInit {
       await this.router.navigateByUrl('/login');
     }, 1500);
   }
-
-  goPage(page){
+  logout() {
+    localStorage.removeItem('infoAccount');
+    localStorage.removeItem('token');
     this.showMenu = !this.showMenu;
-    switch (page){
+    setTimeout(async () => {
+      await this.router.navigateByUrl('/login');
+    }, 1500);
+  }
+  info() {
+    this.showMenu = !this.showMenu;
+    setTimeout(async () => {
+      await this.router.navigateByUrl('/account');
+    }, 1500);
+  }
+  goPage(page) {
+    this.showMenu = !this.showMenu;
+    switch (page) {
       case 'home':
         setTimeout(async () => {
           await this.router.navigateByUrl('/home');

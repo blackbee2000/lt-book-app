@@ -1,7 +1,10 @@
 <div class="container-fluid">
   <ion-row class="header" [ngClass]="{'activeHeader' : showMenu === true}">
     <div *ngIf="showMenu===true" class="login">
-      <p (click)="login()">Login</p>
+      <p *ngIf="wherePage !== 'account' && account === null; else logined" (click)="login()">Login</p>
+      <p *ngIf="wherePage !== 'account' && account !== null" (click)="info()">Account</p>
+      <p *ngIf="wherePage === 'account'" (click)="logout()">Logout</p>
+
       <img src="./assets/icon/user1.svg" />
     </div>
     <div class="menu" [ngClass]="{'activeButton' : showMenu === true}" (click)="clickMenu()">
