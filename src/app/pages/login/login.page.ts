@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services';
-
+import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { NavController } from '@ionic/angular';
+import { AnimationOptions } from '@ionic/angular/providers/nav-controller';
 
 @Component({
   selector: 'app-login',
@@ -17,10 +19,13 @@ export class LoginPage implements OnInit {
   formMessage: any;
   formSubmitted = false;
   authen;
+  listCart = [];
   constructor(
     private router: Router,
     private apiService: ApiService,
-    private http: HttpClient
+    private http: HttpClient,
+    private location: Location,
+    public navCtrl: NavController
   ) {}
   ngOnInit() {
     this.menuHeight = window.innerHeight;
@@ -60,12 +65,29 @@ export class LoginPage implements OnInit {
         .login(body.toString())
         .subscribe(async (response) => {
           this.authen = response;
-          console.log(this.authen?.access_token);
           localStorage.setItem('token', JSON.stringify(response));
+          await this.apiService
+            .getInfoUser(this.authen.access_token)
+            .subscribe((res) => {
+              localStorage.setItem('infoAccount', JSON.stringify(res.data));
+              const checkCart = localStorage.getItem(res.data.phone);
+              if (checkCart === null) {
+                localStorage.setItem(
+                  res.data.phone,
+                  JSON.stringify(this.listCart)
+                );
+              }
+            });
         });
-      setTimeout(()=>{
-        this.router.navigateByUrl('/account');
-      },2000);
+      setTimeout(() => {
+        // this.router.navigateByUrl('/account');
+        // this.location.back();
+        const animations: AnimationOptions = {
+          animated: true,
+          animationDirection: 'back',
+        };
+        this.navCtrl.back(animations);
+      }, 500);
       return this.authen;
     } else {
       alert('Sai thông tin!');

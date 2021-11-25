@@ -104,3 +104,10 @@
     <button (click)="handleControlButton('ok')">Ok</button>
   </div>
 </div>
+<div class="popup" [class.popupActive]="popupLogin">
+  <p class="h4">Login?</p>
+  <div class="btn-control">
+    <button (click)="handleControlButton('cancel')">Cancel</button>
+    <button (click)="handleControlButton('login')">Ok</button>
+  </div>
+</div>

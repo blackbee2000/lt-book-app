@@ -17,53 +17,7 @@ export class AccountPage implements OnInit {
   activePopup = false;
   loading = true;
   account: any;
-  cartProduct = [
-    {
-      id: 1,
-      name: 'Mysthem',
-      img: './assets/images/book2.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 5,
-    },
-    {
-      id: 2,
-      name: 'Mysthemme',
-      img: './assets/images/book3.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 5,
-    },
-    {
-      id: 3,
-      name: 'Mysthemme',
-      img: './assets/images/book4.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 2,
-    },
-    {
-      id: 4,
-      name: 'Mysthemme',
-      img: './assets/images/book.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 4,
-    },
-    {
-      id: 5,
-      name: 'Mysthemme',
-      img: './assets/images/book5.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 5,
-    },
-  ];
+  cartProduct = [];
   boughtProduct = [
     {
       id: 1,
@@ -253,23 +207,26 @@ export class AccountPage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.loadingProduct();
-    this.menuHeight = window.innerHeight;
-    this.innerWidth = window.innerWidth;
-    const info = localStorage.getItem('infoAccount') || null;
-    this.account = JSON.parse(info);
-    console.log('account', this.account);
-    if (!this.account) {
-      this.getInfo();
-    }
+    this.route.queryParams.subscribe(async () => {
+      this.loadingProduct();
+      this.menuHeight = window.innerHeight;
+      this.innerWidth = window.innerWidth;
+      const info = localStorage.getItem('infoAccount') || null;
+      this.account = JSON.parse(info);
+      console.log('account', this.account);
+      if (this.account === null) {
+        await this.getInfo();
+      } else {
+        this.cartProduct = JSON.parse(localStorage.getItem(this.account.phone));
+      }
+    });
   }
   async getInfo() {
-    const token = await JSON.parse(localStorage.getItem('token'));
+    const token = JSON.parse(localStorage.getItem('token'));
     await this.apiService.getInfoUser(token?.access_token).subscribe(
-      (res) => {
-        localStorage.setItem('infoAccount', JSON.stringify(this.account));
-        console.log(res);
+      async (res) => {
         this.account = res.data;
+        localStorage.setItem('infoAccount', JSON.stringify(res.data));
       },
       (err) => {
         this.apiService
@@ -317,6 +274,10 @@ export class AccountPage implements OnInit {
     if (this.type === 'cart') {
       this.cartProduct =
         _.filter([...this.cartProduct], (o) => o.isCheck === false) || [];
+      localStorage.setItem(
+        this.account.phone,
+        JSON.stringify(this.cartProduct)
+      );
     } else if (this.type === 'bought') {
       this.boughtProduct =
         _.filter([...this.boughtProduct], (o) => o.isCheck === false) || [];

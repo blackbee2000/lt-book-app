@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-header-simple',
   templateUrl: './header-simple.component.html',
@@ -8,12 +8,15 @@ import { Router } from '@angular/router';
 export class HeaderSimpleComponent implements OnInit {
   @Input() menuHeight: number;
   @Input() wherePage: string;
+  @Input() isLogin: boolean;
   showMenu = false;
   infoAccount;
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   async ngOnInit() {
-    this.infoAccount = await localStorage.getItem('infoAccount' || null);
+    this.route.queryParams.subscribe(async () => {
+      this.infoAccount = await localStorage.getItem('infoAccount' || null);
+    });
   }
   clickMenu() {
     this.showMenu = !this.showMenu;
