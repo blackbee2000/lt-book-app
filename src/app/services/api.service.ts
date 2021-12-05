@@ -112,4 +112,7 @@ export class ApiService {
       }
     );
   }
+  createAccount(body): Observable<any>{
+    return this.http.post(`${this.url}/user/save`,body);
+  }
 }

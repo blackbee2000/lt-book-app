@@ -26,6 +26,9 @@ export class PaymentPage implements OnInit {
   newCart: any = [];
   listBoughtCart: any;
   listBookInBill: any = [];
+
+  infoBillDetails = [];
+  show = false;
   constructor(
     private router: Router,
     private storage: StorageService,
@@ -122,7 +125,7 @@ export class PaymentPage implements OnInit {
       code: this.today.toString(),
       total: this.totalAmount,
       status: this.vnPay ? 'payment' : 'noPayment',
-      date: moment().format('DD/MM/YYYY'),
+      date: moment().format('DD/MM/YYYY').toString(),
     };
     this.billDetails = {
       idBillDetails: null,
@@ -171,6 +174,8 @@ export class PaymentPage implements OnInit {
           .subscribe(
             (response) => {
               console.log(response.data);
+              this.infoBillDetails = response.data;
+              this.show = true;
               // Xóa sản phẩm đã mua ra khỏi local Cart
               this.listBook.forEach((element) => {
                 this.listCartLocal.forEach((e, index) => {
@@ -203,12 +208,14 @@ export class PaymentPage implements OnInit {
                 );
               } else {
                 //thêm list sách vừa mua vào list đã mua và đưa lên storage
-                console.log('listBook',this.listBook);
-                console.log('listBoughtCart',this.listBoughtCart);
+                console.log('listBook', this.listBook);
+                console.log('listBoughtCart', this.listBoughtCart);
                 this.listBook.forEach((element) => {
-                  const checkBook = this.listBoughtCart.filter((e)=> e.id === element.id );
-                  console.log('checkBook',checkBook);
-                  if(checkBook.length === 0){
+                  const checkBook = this.listBoughtCart.filter(
+                    (e) => e.id === element.id
+                  );
+                  console.log('checkBook', checkBook);
+                  if (checkBook.length === 0) {
                     this.listBoughtCart.push({
                       ...element,
                       isCheck: false,
@@ -221,7 +228,7 @@ export class PaymentPage implements OnInit {
                   JSON.stringify(this.listBoughtCart)
                 );
               }
-              this.router.navigateByUrl('/account');
+              // this.router.navigateByUrl('/account');
             },
             (error) => {}
           );
@@ -236,5 +243,12 @@ export class PaymentPage implements OnInit {
       }
     );
     // this.listBook = [];
+  }
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  NavigateToAccount() {
+    this.show = false;
+    setTimeout(async () => {
+      await this.router.navigateByUrl('/account');
+    }, 1500);
   }
 }
