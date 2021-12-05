@@ -3,6 +3,7 @@ import { filter } from 'rxjs/operators';
 import * as _ from 'lodash';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { StorageService } from 'src/app/services/storage.service';
+import { ApiService } from 'src/app/services';
 @Component({
   selector: 'app-account',
   templateUrl: './account.page.html',
@@ -14,68 +15,10 @@ export class AccountPage implements OnInit {
   wherePage = 'account';
   type = 'cart';
   activePopup = false;
-  loading=true;
-  account = {
-    name: 'Josh Germany',
-    position: 'Member',
-    address: '9/4 Tân Tiến, XTĐ, HM',
-    phone: '0344153437',
-    email: 'trung08052000@gmail.com',
-    avtUrl: './assets/images/avt.jpg',
-    inforDelivery: {
-      name: 'Jack97',
-      phone: '0153236523',
-      address: '123456 5 trịu',
-      note: 'J97 5 trịu',
-    },
-  };
-  cartProduct = [
-    {
-      id: 1,
-      name: 'Mysthem',
-      img: './assets/images/book2.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 5,
-    },
-    {
-      id: 2,
-      name: 'Mysthemme',
-      img: './assets/images/book3.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 5,
-    },
-    {
-      id: 3,
-      name: 'Mysthemme',
-      img: './assets/images/book4.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 2,
-    },
-    {
-      id: 4,
-      name: 'Mysthemme',
-      img: './assets/images/book.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 4,
-    },
-    {
-      id: 5,
-      name: 'Mysthemme',
-      img: './assets/images/book5.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 5,
-    },
-  ];
+  loading = true;
+  account: any;
+  token: any;
+  cartProduct = [];
   boughtProduct = [
     {
       id: 1,
@@ -88,6 +31,15 @@ export class AccountPage implements OnInit {
     },
     {
       id: 6,
+      name: 'Mysthemme',
+      img: './assets/images/book4.jpg',
+      isCheck: false,
+      price: 50000,
+      quantity: 1,
+      rating: 5,
+    },
+    {
+      id: 7,
       name: 'Mysthemme',
       img: './assets/images/book4.jpg',
       isCheck: false,
@@ -260,28 +212,54 @@ export class AccountPage implements OnInit {
   constructor(
     private router: Router,
     private storage: StorageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private apiService: ApiService
   ) {}
 
   async ngOnInit() {
-    this.loadingProduct();
     this.route.queryParams.subscribe(async () => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        const currentNavigation = this.router.getCurrentNavigation();
-        if (currentNavigation.extras.state.isEdit) {
-          this.account =
-            (await this.storage.getObject('AccountInformation')) || {};
-        }
+      this.loadingProduct();
+      this.menuHeight = window.innerHeight;
+      this.innerWidth = window.innerWidth;
+      const info = localStorage.getItem('infoAccount') || null;
+      this.account = JSON.parse(info);
+      this.token = JSON.parse(localStorage.getItem('token'));
+      this.boughtProduct =
+        JSON.parse(localStorage.getItem(`${this.account.phone}-bought`)) || [];
+      console.log('account', this.account);
+      if (this.account === null) {
+        await this.getInfo();
+      } else {
+        this.cartProduct = JSON.parse(localStorage.getItem(this.account.phone));
       }
     });
-    this.menuHeight = window.innerHeight;
-    this.innerWidth=window.innerWidth;
-    await this.storage.setObject('AccountInformation', this.account);
+  }
+  async getInfo() {
+    const token = JSON.parse(localStorage.getItem('token'));
+    await this.apiService.getInfoUser(token?.access_token).subscribe(
+      async (res) => {
+        this.account = res.data;
+        localStorage.setItem('infoAccount', JSON.stringify(res.data));
+      },
+      (err) => {
+        this.apiService
+          .refreshToken(token?.refreshToken)
+          .subscribe((response) => {
+            localStorage.setItem('token', JSON.stringify(response));
+            this.getInfo();
+          });
+      }
+    );
   }
   onChangeType(type) {
-    this.loading=true;
+    this.loading = true;
     this.loadingProduct();
     this.type = type;
+    if (this.type === 'yourOrder') {
+      this.apiService.findBillByIdUser(this.account.id).subscribe((res) => {
+        this.listBillProduct = res.data;
+      });
+    }
   }
   checkAll() {
     this.chooseAll = !this.chooseAll;
@@ -314,10 +292,24 @@ export class AccountPage implements OnInit {
     if (this.type === 'cart') {
       this.cartProduct =
         _.filter([...this.cartProduct], (o) => o.isCheck === false) || [];
+      localStorage.setItem(
+        this.account.phone,
+        JSON.stringify(this.cartProduct)
+      );
     } else if (this.type === 'bought') {
       this.boughtProduct =
         _.filter([...this.boughtProduct], (o) => o.isCheck === false) || [];
+      localStorage.setItem(
+        this.account.phone,
+        JSON.stringify(this.boughtProduct)
+      );
     }
+  }
+  convertMoney(money) {
+    return new Intl.NumberFormat('vi', {
+      style: 'currency',
+      currency: 'VND',
+    }).format(money);
   }
   payment() {
     this.cartProduct.forEach((e) => {
@@ -330,12 +322,9 @@ export class AccountPage implements OnInit {
         this.allProduct.push(e);
       }
     });
-    console.log(this.allProduct);
     const navigationExtras: NavigationExtras = {
       state: {
         listBook: this.allProduct,
-        listBill: this.listBillProduct,
-        listBillDetails: this.listBillProductDetail,
       },
     };
     this.allProduct = [];
@@ -343,18 +332,26 @@ export class AccountPage implements OnInit {
   }
   billDetail(item) {
     this.activePopup = true;
-    this.billProductDetail = item;
-    this.listBillProductDetail.forEach((e) => {
-      if (e.idBill === item.idBill) {
-        this.billProductDetail.product = e.product;
-        this.billProductDetail.paymentMethod = e.method;
-      }
-    });
-    console.log(this.billProductDetail);
-    const navigationExtras: NavigationExtras = {
-      state: { billProductDetail: this.billProductDetail },
-    };
-    this.router.navigateByUrl('/account/detail-bill', navigationExtras);
+    this.apiService
+      .findBillDetailsByIdBill(this.token.access_token, item.id)
+      .subscribe(
+        async (res) => {
+          this.billProductDetail = res.data;
+          console.log(this.billProductDetail);
+          const navigationExtras: NavigationExtras = {
+            state: { billProductDetail: this.billProductDetail,bill: item},
+          };
+          await this.router.navigateByUrl('/account/detail-bill', navigationExtras);
+        },
+        (err) => {
+          this.apiService
+            .refreshToken(this.token.refresh_token)
+            .subscribe((res) => {
+              this.token = res;
+              this.billDetail(item);
+            });
+        }
+      );
   }
   editInfo() {
     const navigationExtras: NavigationExtras = {
@@ -362,9 +359,9 @@ export class AccountPage implements OnInit {
     };
     this.router.navigateByUrl('/account/edit', navigationExtras);
   }
-  loadingProduct(){
-    setTimeout(()=>{
+  loadingProduct() {
+    setTimeout(() => {
       this.loading = false;
-    },1500);
+    }, 1500);
   }
 }

@@ -22,24 +22,24 @@
         </ng-template>
         <div class="informationBill_decrip">
           <div class="informationBill_decrip-title h7">
-            {{billProductDetail.name}}
+            {{bill.code}}
           </div>
           <div class="informationBill_decrip-content h9">
-            <p>Total: {{billProductDetail.total}}</p>
-            <p>Order daily: {{billProductDetail.orderDaily}}</p>
+            <p>Total: {{bill.total}}</p>
+            <p>Order daily: {{billProductDetail.date}}</p>
           </div>
         </div>
-        <div *ngIf="billProductDetail.status==='done';else indelivery" class="informationBill-status"
-          style="color:#1EA22B ;">Delivered</div>
+        <div *ngIf="bill.status==='payment';else indelivery" class="informationBill-status"
+          style="color:#1EA22B ;">Payment</div>
         <ng-template #indelivery>
-          <div class="informationBill-status" style="color: #E6CC06;">Delivering</div>
+          <div class="informationBill-status" style="color: #E6CC06;">NoPayment</div>
         </ng-template>
       </div>
     </div>
     <p class="h6 title">Your Book</p>
-    <div *ngFor="let item of billProductDetail.product;index as i" class="product">
+    <div *ngFor="let item of billProductDetail;index as i" class="product">
       <div class="product-img contain-img">
-        <img [src]="item.img" alt="">
+        <img [src]="item.imgBook" alt="">
       </div>
       <div class="product_info">
         <div class="product_info-name h7" style="font-family: 'ESB';">
@@ -47,10 +47,10 @@
         </div>
         <div class="product_info-decrip h8">
           <p>Price: {{item.price}}</p>
-          <p>Quantity: {{item.quantity}}</p>
+          <p>Quantity: {{item.amount}}</p>
         </div>
       </div>
-      <p class="total">Total: {{item.price * item.quantity}}</p>
+      <p class="total">Total: {{item.price * item.amount}}</p>
     </div>
     <p class="h6 title" style="float: right;margin-right: -20px; padding:5px 25px 5px 5px; text-align: right;">Payment
     </p>
@@ -58,22 +58,21 @@
       <div class="payment_select">
         <div class="payment_option">
           <div class="payment_option-checkIcon">
-            <ion-checkbox disabled="true" [checked]="billProductDetail.paymentMethod==='vnpay'"></ion-checkbox>
+            <ion-checkbox disabled="true" [checked]="bill.status==='payment'"></ion-checkbox>
           </div>
           <div class="payment_option-name h6">Payment Via VNPay</div>
         </div>
         <div class="payment_option">
           <div class="payment_option-checkIcon">
-            <ion-checkbox disabled="true" [checked]="billProductDetail.paymentMethod ==='cashmoney'"></ion-checkbox>
+            <ion-checkbox disabled="true" [checked]="bill.status==='noPayment'"></ion-checkbox>
           </div>
           <div class="payment_option-name h6">Payment Via Cash Money</div>
         </div>
       </div>
     </div>
     <div class="totalMoney">
-      <p class="h6">Total: {{billProductDetail.total}}</p>
-      <p class="h6">Delivery charges: {{billProductDetail.transportFee}}</p>
-      <p class="h6">Total amount: {{billProductDetail.total + billProductDetail.transportFee}}</p>
+      <p class="h6">Delivery charges: 40.000đ</p>
+      <p class="h6">Total: {{bill.total}}</p>
     </div>
   </div>
 </ion-content>

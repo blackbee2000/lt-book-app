@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
+import { ApiService } from 'src/app/services';
 
 @Component({
   selector: 'app-product-detail',
@@ -12,7 +13,11 @@ export class ProductDetailPage implements OnInit {
   productDetail: any = {};
   loading: any = false;
   popup: any = false;
+  popupLogin: any = false;
   shadow: any = false;
+  isLogin: any = false;
+  nameCart;
+  listCart = [];
   public slideOpts = {
     slidesPerView: 2.1,
     centeredSlides: true,
@@ -212,15 +217,47 @@ export class ProductDetailPage implements OnInit {
       birthday: '20/09/2000',
     },
   ];
-  constructor(private router: Router, private route: ActivatedRoute) {}
-
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private apiService: ApiService
+  ) {}
+  checkProductInCart(product) {
+    const check = this.listCart.filter((o) => o.id === product.id);
+    if (check.length === 0) {
+      this.listCart.push({...product,numBuy:1});
+      //set new Product in Cart
+      localStorage.setItem(this.nameCart, JSON.stringify(this.listCart));
+    }
+  }
+  getLocalCart() {
+    const infoAccount = localStorage.getItem('infoAccount') || null;
+    const getCartLocal = JSON.parse(infoAccount);
+    this.listCart = JSON.parse(localStorage.getItem(getCartLocal.phone));
+    this.nameCart = getCartLocal.phone;
+    console.log('Cart', this.listCart);
+  }
   ngOnInit() {
     this.route.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation().extras.state) {
         const currentNavigation = this.router.getCurrentNavigation();
         const product = currentNavigation.extras.state.item;
-        this.productDetail = product;
+        this.getBookDetails(product?.id);
+        const login = localStorage.getItem('infoAccount') || null;
+        const getCartLocal = JSON.parse(login);
+        console.log(getCartLocal);
+        if (login !== null) {
+          this.isLogin = true;
+          this.getLocalCart();
+        } else {
+          this.isLogin = false;
+        }
       }
+    });
+  }
+  async getBookDetails(id) {
+    await this.apiService.getBookById(id).subscribe((res) => {
+      this.productDetail = res.data;
     });
   }
 
@@ -233,13 +270,17 @@ export class ProductDetailPage implements OnInit {
     }, 1000);
   }
 
-  handleBuyProduct(){
+  handleBuyProduct() {
     this.shadow = true;
-    this.popup = true;
+    if (this.isLogin === true) {
+      this.popup = true;
+    } else {
+      this.popupLogin = true;
+    }
   }
 
-  handleControlButton(type){
-    switch (type){
+  handleControlButton(type) {
+    switch (type) {
       case 'cancel':
         this.shadow = false;
         this.popup = false;
@@ -248,11 +289,19 @@ export class ProductDetailPage implements OnInit {
         this.shadow = false;
         this.popup = false;
         this.loading = true;
+          this.loading = false;
+          this.checkProductInCart(this.productDetail);
+          console.log(this.listCart);
+          // this.router.navigateByUrl('/product');
+        break;
+      case 'login':
+        this.shadow = false;
+        this.loading = true;
+        this.popupLogin = false;
         setTimeout(() => {
           this.loading = false;
-          this.router.navigateByUrl('/product');
+          this.router.navigateByUrl('/login');
         }, 1000);
-        break;
     }
   }
 }

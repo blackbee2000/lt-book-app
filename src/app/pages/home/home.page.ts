@@ -6,29 +6,36 @@ import { ElementRef } from '@angular/core';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit{
+export class HomePage implements OnInit {
   @ViewChild('audioOption') audioPlayerRef: ElementRef;
   menuHeight;
-  wherePage='home';
+  wherePage = 'home';
   option = {
-    direction: 'vertical'
+    direction: 'vertical',
   };
+  isLogin = false;
   rotate360: any = false;
   constructor() {}
   ngOnInit() {
-    this.menuHeight=window.innerHeight;
+    this.menuHeight = window.innerHeight;
+    const isLogin = localStorage.getItem('infoAccount') || null;
+    console.log('check');
+    if (isLogin !== null) {
+      this.isLogin = true;
+    }else{
+      this.isLogin = false;
+    }
   }
-  rotateActive(){
-    if(this.rotate360 === false){
+  rotateActive() {
+    if (this.rotate360 === false) {
       this.rotate360 = true;
       this.audioPlayerRef.nativeElement.play();
-    }
-    else{
+    } else {
       this.rotate360 = false;
       this.audioPlayerRef.nativeElement.pause();
     }
   }
-  backToTop(){
+  backToTop() {
     window.scrollTo(0, 0);
   }
 }

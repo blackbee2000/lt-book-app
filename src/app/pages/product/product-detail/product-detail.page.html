@@ -10,7 +10,7 @@
   <div class="product-detail">
     <div class="product-detail_info">
       <div class="product-detail_info-image">
-        <img [src]="productDetail.imageURL" alt="product-detail-image">
+        <img [src]="productDetail.imageBook" alt="product-detail-image">
       </div>
       <div class="product-detail_info-right">
         <h2>{{productDetail.name}}</h2>
@@ -37,10 +37,10 @@
     <div class="product-detail_artist">
       <ion-text class="h6">Artist</ion-text>
       <div class="product-detail_artist-avatar">
-        <img src="assets/images/avatar.jpg" alt="avatar-artist">
+        <img [src]="productDetail.artistAvatar" alt="avatar-artist">
       </div>
-      <p class="h6">{{productDetail.artist}}</p>
-      <p class="h8">{{productDetail.birthday}}</p>
+      <p class="h6">{{productDetail.artistName}}</p>
+      <p class="h8">{{productDetail.artistBornDay}}</p>
     </div>
     <div class="product-detail_comment">
       <div class="product-detail_comment-list">
@@ -102,5 +102,12 @@
   <div class="btn-control">
     <button (click)="handleControlButton('cancel')">Cancel</button>
     <button (click)="handleControlButton('ok')">Ok</button>
+  </div>
+</div>
+<div class="popup" [class.popupActive]="popupLogin">
+  <p class="h4">Login?</p>
+  <div class="btn-control">
+    <button (click)="handleControlButton('cancel')">Cancel</button>
+    <button (click)="handleControlButton('login')">Ok</button>
   </div>
 </div>

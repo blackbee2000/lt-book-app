@@ -1,6 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {IonSlides, Platform} from '@ionic/angular';
-import {Router} from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonSlides, Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-splash',
@@ -8,16 +8,14 @@ import {Router} from '@angular/router';
   styleUrls: ['./splash.page.scss'],
 })
 export class SplashPage implements OnInit {
-  @ViewChild('introSlides', {static: false}) introSlides: IonSlides;
+  @ViewChild('introSlides', { static: false }) introSlides: IonSlides;
   isEnd = false;
-  constructor(
-    private router: Router,
-    private plt: Platform
-  ) { }
+  listCart: any = [];
 
+  constructor(private router: Router, private plt: Platform) {}
   ngOnInit() {
-  }
 
+  }
   async slideOnChange(e) {
     this.isEnd = await this.introSlides.isEnd();
   }
@@ -31,5 +29,4 @@ export class SplashPage implements OnInit {
       await this.introSlides.slideNext();
     }
   }
-
 }

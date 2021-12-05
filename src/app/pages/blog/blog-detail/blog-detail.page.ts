@@ -1,6 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
+import { ApiService } from 'src/app/services';
 import { ShareService } from 'src/app/services/share.service';
 
 @Component({
@@ -52,6 +53,7 @@ export class BlogDetailPage implements OnInit {
   constructor(private router: Router,
     private route: ActivatedRoute,
     private shareService: ShareService,
+    private apiService: ApiService
   ) { }
 
   ngOnInit() {
@@ -59,11 +61,15 @@ export class BlogDetailPage implements OnInit {
       if (this.router.getCurrentNavigation().extras.state) {
         const currentNavigation = this.router.getCurrentNavigation();
         const product = currentNavigation.extras.state.item;
-        this.blogDetail = product;
+        this.getBlogDetails(product.id);
       }
     });
   }
-
+  getBlogDetails(id){
+    this.apiService.getBlogById(id).subscribe((res)=>{
+      this.blogDetail = res.data;
+    });
+  }
   async showBlogRelate(item) {
     this.loading = true;
     setTimeout(() => {

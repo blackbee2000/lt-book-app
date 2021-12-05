@@ -1,6 +1,5 @@
-
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-header-simple',
   templateUrl: './header-simple.component.html',
@@ -9,10 +8,16 @@ import { Router } from '@angular/router';
 export class HeaderSimpleComponent implements OnInit {
   @Input() menuHeight: number;
   @Input() wherePage: string;
+  @Input() isLogin: boolean;
   showMenu = false;
-  constructor(private router: Router) { }
+  infoAccount;
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.route.queryParams.subscribe(async () => {
+      this.infoAccount = await localStorage.getItem('infoAccount' || null);
+    });
+  }
   clickMenu() {
     this.showMenu = !this.showMenu;
   }
@@ -22,10 +27,23 @@ export class HeaderSimpleComponent implements OnInit {
       await this.router.navigateByUrl('/login');
     }, 1500);
   }
-
-  goPage(page){
+  logout() {
+    localStorage.removeItem('infoAccount');
+    localStorage.removeItem('token');
     this.showMenu = !this.showMenu;
-    switch (page){
+    setTimeout(async () => {
+      await this.router.navigateByUrl('/login');
+    }, 1500);
+  }
+  info() {
+    this.showMenu = !this.showMenu;
+    setTimeout(async () => {
+      await this.router.navigateByUrl('/account');
+    }, 1500);
+  }
+  goPage(page) {
+    this.showMenu = !this.showMenu;
+    switch (page) {
       case 'home':
         setTimeout(async () => {
           await this.router.navigateByUrl('/home');

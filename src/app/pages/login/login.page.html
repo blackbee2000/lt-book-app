@@ -11,20 +11,38 @@
   </ion-header>
   <ion-content>
     <div class="container">
-      <div class="form">
+      <div class="form" [formGroup]="formData">
         <div class="title">
           Login
         </div>
         <div class="form-control">
-          <ion-input placeholder="Username">
+          <ion-input placeholder="Username" formControlName="username">
           </ion-input>
           <img src="./assets/icon/user.svg" />
         </div>
+        <ng-container *ngFor="let validation of formMessage['username']">
+          <div
+            class="form-error-message"
+            *ngIf="formSubmitted && formData.get('username')['hasError'](validation.type)"
+          >
+            <!-- <ion-icon name="warning"></ion-icon> -->
+            <span>{{validation.message}}</span>
+          </div>
+        </ng-container>
         <div class="form-control">
-          <ion-input placeholder="Password" type="Password">
+          <ion-input placeholder="Password" type="Password" formControlName="password">
           </ion-input>
           <img src="./assets/icon/lock.svg" />
         </div>
+        <ng-container *ngFor="let validation of formMessage['password']">
+          <div
+            class="form-error-message"
+            *ngIf="formSubmitted && formData.get('password')['hasError'](validation.type)"
+          >
+            <!-- <ion-icon name="warning"></ion-icon> -->
+            <span>{{validation.message}}</span>
+          </div>
+        </ng-container>
         <div class="button" (click)="login()">Login</div>
         <div class="button">Login with Google</div>
 
@@ -32,6 +50,5 @@
     </div>
     <p class="wellcome">Wellcome to LTBook</p>
     <p class="signIn" (click)="signIn()">SignIn Account</p>
-
   </ion-content>
 </ion-content>

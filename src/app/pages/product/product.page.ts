@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { ApiService } from 'src/app/services';
 
 @Component({
   selector: 'app-product',
@@ -167,47 +168,61 @@ export class ProductPage implements OnInit {
   listTypeBook: any = [
     {
       name: 'TextBook',
-      icon: 'assets/icon/icon-event.svg',
-      color: '#EE0000',
+      icon: 'book',
+      color:
+        'linear-gradient(96.58deg, #017421 5.04%, rgba(173, 255, 0, 0.69) 95.89%)',
     },
     {
       name: 'Novel',
-      icon: 'assets/icon/icon-event.svg',
-      color: '#0066FF',
+      icon: 'pencil-outline',
+      color:
+        'linear-gradient(94.4deg, #074782 3.48%, rgba(53, 171, 222, 0.88) 96.89%)',
     },
     {
       name: 'Comic',
-      icon: 'assets/icon/icon-event.svg',
-      color: '#000011',
+      icon: 'aperture',
+      color:
+        'linear-gradient(105.07deg, #FFCB11 47.93%, rgba(255, 223, 55, 0.56) 92.11%)',
     },
     {
       name: 'Poem',
-      icon: 'assets/icon/icon-event.svg',
-      color: '#009900',
+      icon: 'flower-outline',
+      color: 'linear-gradient(104.23deg, #9A0B61 9.85%, #F34F81 87.14%)',
     },
     {
       name: 'Thriller',
-      icon: 'assets/icon/icon-event.svg',
-      color: '#330000',
+      icon: 'skull',
+      color:
+        'linear-gradient(102.09deg, #000000 25.75%, rgba(248, 24, 24, 0.73) 85.9%)',
     },
     {
       name: 'Short',
-      icon: 'assets/icon/icon-event.svg',
-      color: '#FF6600',
+      icon: 'pie-chart',
+      color:
+        'linear-gradient(286.43deg, #FFD705 7.59%, rgba(248, 24, 24, 0.53) 91.53%)',
     },
   ];
   isClick: any = false;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private apiService: ApiService) {}
 
   ngOnInit() {
     this.menuHeight = window.innerHeight;
     this.labelTypeBook = 'TextBook';
     this.listProduct = this.listProduct1;
     this.menuHeight = window.innerHeight;
+    this.getBookInType();
     this.changeLoading();
   }
-
+  async getBookInType() {
+    const typeBook = {
+      type: this.labelTypeBook,
+    };
+    await this.apiService.getBook(typeBook).subscribe((res) => {
+      // console.log(res);
+      this.listProduct = res.data;
+    });
+  }
   goDetail(product) {
     this.loading = true;
     setTimeout(() => {
@@ -223,27 +238,33 @@ export class ProductPage implements OnInit {
     switch (item.name) {
       case 'TextBook':
         this.labelTypeBook = item.name;
-        this.listProduct = this.listProduct1;
+        this.getBookInType();
+        // this.listProduct = this.listProduct1;
         break;
       case 'Novel':
         this.labelTypeBook = item.name;
-        this.listProduct = this.listProduct2;
+        this.getBookInType();
+        // this.listProduct = this.listProduct2;
         break;
       case 'Comic':
         this.labelTypeBook = item.name;
-        this.listProduct = this.listProduct1;
+        this.getBookInType();
+        // this.listProduct = this.listProduct1;
         break;
       case 'Poem':
         this.labelTypeBook = item.name;
-        this.listProduct = this.listProduct2;
+        this.getBookInType();
+        // this.listProduct = this.listProduct2;
         break;
       case 'Thriller':
         this.labelTypeBook = item.name;
-        this.listProduct = this.listProduct1;
+        this.getBookInType();
+        // this.listProduct = this.listProduct1;
         break;
       case 'Short':
         this.labelTypeBook = item.name;
-        this.listProduct = this.listProduct2;
+        this.getBookInType();
+        // this.listProduct = this.listProduct2;
         break;
     }
   }
@@ -266,7 +287,6 @@ export class ProductPage implements OnInit {
         break;
     }
   }
-
   changeLoading() {
     setTimeout(() => {
       this.loadingSkeleton = true;

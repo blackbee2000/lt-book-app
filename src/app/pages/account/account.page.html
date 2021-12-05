@@ -7,15 +7,18 @@
   <div class="borderheader"></div>
   <div class="information">
     <div class="information-avt">
-      <img [src]="account.avtUrl" alt="">
+      <img [src]="account?.avtUrl" alt="">
     </div>
     <div class="information_profile">
       <div class="information_profile-name">
-        <p>{{account.name}}</p>
+        <p>{{account?.name}}</p>
         <img src="./assets/icon/edit.svg" alt="" style="width:12px;height:12px" (click)="editInfo()">
       </div>
       <div class="information_profile-type">
-        <span>{{account.position}}</span>
+        <span *ngIf="account?.roles?.[0]?.name === 'ROLE_SUPER_ADMIN'">SUPER ADMIN</span>
+        <span *ngIf="account?.roles?.[0]?.name === 'ROLE_ADMIN'">ADMIN</span>
+        <span *ngIf="account?.roles?.[0]?.name === 'ROLE_MANAGER'">MANAGER</span>
+        <span *ngIf="account?.roles?.[0]?.name === 'ROLE_USER'">USER</span>
       </div>
       <ion-row class="information_profile-product">
         <ion-col size="7" class="incard">
@@ -54,19 +57,19 @@
             </div>
             <div class="product_information">
               <div class="product_information-img">
-                <img [src]=item.img alt="">
+                <img [src]=item.imageBook alt="">
               </div>
               <div class="product_information-item">
                 <div class="name">{{item.name}}</div>
-                <div class="prop">Price: {{item.price}} đ</div>
+                <div class="prop">Price: {{convertMoney(item.price)}}</div>
                 <div class="prop">Rating: <ng-rating-bar disabled="true" [value]="item.rating" [ratingCount]="5"
-                    colorActive="#FFC107"
-                    [styles]="{fontSize: innerWidth > 320 ? '18px' : '12px', margin: '-5px'}">
+                    colorActive="#FFC107" [styles]="{fontSize: innerWidth > 320 ? '18px' : '12px', margin: '-5px'}">
                   </ng-rating-bar>
                 </div>
               </div>
               <div class="product-total">
-                Total: {{item.price * item.quantity}}
+                {{item.artistName}}
+                <!-- Total: {{item.price * item.quantity}} -->
               </div>
             </div>
           </div>
@@ -100,7 +103,7 @@
             </div>
             <div class="product_information">
               <div class="product_information-img">
-                <img [src]=item.img alt="">
+                <img [src]=item.imageBook alt="">
               </div>
               <div class="product_information-item">
                 <div class="name">{{item.name}}</div>
@@ -140,7 +143,7 @@
         <div *ngIf="!loading;else loadingtemplate">
           <div *ngFor="let item of listBillProduct;index as i" class="product" (click)="billDetail(item)">
             <div class="product_information" style="width:100%">
-              <div *ngIf="item.status === 'done';else nowTemplate" class="product_information-img done">
+              <div *ngIf="item.status === 'payment';else nowTemplate" class="product_information-img done">
                 <img src="./assets/icon/check.svg" alt="done" class="icon">
               </div>
               <ng-template #nowTemplate>
@@ -149,16 +152,16 @@
                 </div>
               </ng-template>
               <div class="product_information-item">
-                <div class="name">{{item.name}}</div>
+                <div class="name">{{item.code}}</div>
                 <div class="prop">Total: {{item.total}} đ</div>
                 <div class="prop">Order daily: {{item.orderDaily}}</div>
               </div>
-              <div *ngIf="item.status==='done';else delivering" class="product-total" style="color: #1EA22B;">
-                Delivered
+              <div *ngIf="item.status==='payment';else delivering" class="product-total" style="color: #1EA22B;">
+                Payment
               </div>
               <ng-template #delivering>
                 <div class="product-total" style="color: #E6CC06;">
-                  Delivering
+                  NoPayment
                 </div>
               </ng-template>
             </div>
@@ -168,7 +171,7 @@
           <div *ngFor="let item of [1,2,3]" class="product" (click)="chooseBook(item)">
             <div class="product_information">
               <div class="product_information-img">
-                <ion-skeleton-text  animated style="width: 100%; height: 100%;"></ion-skeleton-text>
+                <ion-skeleton-text animated style="width: 100%; height: 100%;"></ion-skeleton-text>
               </div>
               <div class="product_information-item">
                 <div class="name">

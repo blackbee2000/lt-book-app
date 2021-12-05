@@ -11,8 +11,11 @@ export class HeaderComponent implements OnInit {
   showMenu = false;
 
   constructor(private router: Router) {}
-
-  ngOnInit() {}
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  infoAccount;
+  async ngOnInit() {
+    this.infoAccount = await localStorage.getItem('infoAccount' || null);
+  }
   clickMenu() {
     this.showMenu = !this.showMenu;
   }
@@ -22,9 +25,15 @@ export class HeaderComponent implements OnInit {
       await this.router.navigateByUrl('/login');
     }, 1500);
   }
-  goPage(page){
+  info(){
     this.showMenu = !this.showMenu;
-    switch (page){
+    setTimeout(async () => {
+      await this.router.navigateByUrl('/account');
+    }, 1500);
+  }
+  goPage(page) {
+    this.showMenu = !this.showMenu;
+    switch (page) {
       case 'home':
         setTimeout(async () => {
           await this.router.navigateByUrl('/home');

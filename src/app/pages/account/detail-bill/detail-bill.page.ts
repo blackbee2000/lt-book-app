@@ -8,11 +8,13 @@ import { Router } from '@angular/router';
 })
 export class DetailBillPage implements OnInit {
   billProductDetail: any = {};
+  bill: any;
   constructor(private router: Router) {}
   ngOnInit() {
     if (this.router.getCurrentNavigation().extras.state) {
       const currentNavigation = this.router.getCurrentNavigation();
       this.billProductDetail = currentNavigation.extras.state.billProductDetail;
+      this.bill = currentNavigation.extras.state.bill;
       console.log(this.billProductDetail);
     }
   }
