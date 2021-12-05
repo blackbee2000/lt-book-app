@@ -131,8 +131,8 @@ export class PaymentPage implements OnInit {
       date: moment().format('DD/MM/YYYY').toString(),
       listBook: this.listBook,
     };
-    console.log('Hóa đơn mua hàng', this.bill);
-    console.log('Hóa đơn mua hàng chi tiết', this.billDetails);
+    // console.log('Hóa đơn mua hàng', this.bill);
+    // console.log('Hóa đơn mua hàng chi tiết', this.billDetails);
     this.createBill(this.bill);
     // this.router.navigateByUrl('/account');
     // this.listBill.push({
@@ -150,7 +150,7 @@ export class PaymentPage implements OnInit {
         idBookInBill: null,
         idBill: idbill,
         idBook: element.id,
-        nameBook:element.name,
+        nameBook: element.name,
         imgBook: element.imageBook,
         amount: element.numBuy,
         price: element.price,
@@ -167,7 +167,7 @@ export class PaymentPage implements OnInit {
         console.log(res);
         this.logBook(res.data.id);
         this.apiService
-          .createBillDetails(this.token?.access_token,this.listBookInBill)
+          .createBillDetails(this.token?.access_token, this.listBookInBill)
           .subscribe(
             (response) => {
               console.log(response.data);
@@ -189,30 +189,32 @@ export class PaymentPage implements OnInit {
               //Nếu list sách đã mua chưa tồn tại
               if (this.listBoughtCart === null) {
                 //set bằng list sách của bill hiện tại
+                this.listBoughtCart = [];
                 this.listBook.forEach((element) => {
-                  this.listBoughtCart = [];
                   this.listBoughtCart.push({
                     ...element,
                     isCheck: false,
                     numBuy: 1,
                   });
-                  localStorage.setItem(
-                    `${this.infoAccount.phone}-bought`,
-                    JSON.stringify(this.listBoughtCart)
-                  );
                 });
+                localStorage.setItem(
+                  `${this.infoAccount.phone}-bought`,
+                  JSON.stringify(this.listBoughtCart)
+                );
               } else {
                 //thêm list sách vừa mua vào list đã mua và đưa lên storage
+                console.log('listBook',this.listBook);
+                console.log('listBoughtCart',this.listBoughtCart);
                 this.listBook.forEach((element) => {
-                  this.listBoughtCart.forEach((e) => {
-                    if (element.id !== e.id) {
-                      this.listBoughtCart.push({
-                        ...element,
-                        isCheck: false,
-                        numBuy: 1,
-                      });
-                    }
-                  });
+                  const checkBook = this.listBoughtCart.filter((e)=> e.id === element.id );
+                  console.log('checkBook',checkBook);
+                  if(checkBook.length === 0){
+                    this.listBoughtCart.push({
+                      ...element,
+                      isCheck: false,
+                      numBuy: 1,
+                    });
+                  }
                 });
                 localStorage.setItem(
                   `${this.infoAccount.phone}-bought`,
