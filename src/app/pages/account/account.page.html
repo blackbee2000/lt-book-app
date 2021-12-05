@@ -61,7 +61,7 @@
               </div>
               <div class="product_information-item">
                 <div class="name">{{item.name}}</div>
-                <div class="prop">Price: {{item.price}} đ</div>
+                <div class="prop">Price: {{convertMoney(item.price)}}</div>
                 <div class="prop">Rating: <ng-rating-bar disabled="true" [value]="item.rating" [ratingCount]="5"
                     colorActive="#FFC107" [styles]="{fontSize: innerWidth > 320 ? '18px' : '12px', margin: '-5px'}">
                   </ng-rating-bar>
@@ -103,7 +103,7 @@
             </div>
             <div class="product_information">
               <div class="product_information-img">
-                <img [src]=item.img alt="">
+                <img [src]=item.imageBook alt="">
               </div>
               <div class="product_information-item">
                 <div class="name">{{item.name}}</div>
@@ -143,7 +143,7 @@
         <div *ngIf="!loading;else loadingtemplate">
           <div *ngFor="let item of listBillProduct;index as i" class="product" (click)="billDetail(item)">
             <div class="product_information" style="width:100%">
-              <div *ngIf="item.status === 'done';else nowTemplate" class="product_information-img done">
+              <div *ngIf="item.status === 'payment';else nowTemplate" class="product_information-img done">
                 <img src="./assets/icon/check.svg" alt="done" class="icon">
               </div>
               <ng-template #nowTemplate>
@@ -152,16 +152,16 @@
                 </div>
               </ng-template>
               <div class="product_information-item">
-                <div class="name">{{item.name}}</div>
+                <div class="name">{{item.code}}</div>
                 <div class="prop">Total: {{item.total}} đ</div>
                 <div class="prop">Order daily: {{item.orderDaily}}</div>
               </div>
-              <div *ngIf="item.status==='done';else delivering" class="product-total" style="color: #1EA22B;">
-                Delivered
+              <div *ngIf="item.status==='payment';else delivering" class="product-total" style="color: #1EA22B;">
+                Payment
               </div>
               <ng-template #delivering>
                 <div class="product-total" style="color: #E6CC06;">
-                  Delivering
+                  NoPayment
                 </div>
               </ng-template>
             </div>

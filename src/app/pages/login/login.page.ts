@@ -68,26 +68,22 @@ export class LoginPage implements OnInit {
           localStorage.setItem('token', JSON.stringify(response));
           await this.apiService
             .getInfoUser(this.authen.access_token)
-            .subscribe((res) => {
+            .subscribe(async (res) => {
               localStorage.setItem('infoAccount', JSON.stringify(res.data));
               const checkCart = localStorage.getItem(res.data.phone);
               if (checkCart === null) {
-                localStorage.setItem(
+                await localStorage.setItem(
                   res.data.phone,
                   JSON.stringify(this.listCart)
                 );
               }
+              const animations: AnimationOptions = {
+                animated: true,
+                animationDirection: 'back',
+              };
+              this.navCtrl.back(animations);
             });
         });
-      setTimeout(() => {
-        // this.router.navigateByUrl('/account');
-        // this.location.back();
-        const animations: AnimationOptions = {
-          animated: true,
-          animationDirection: 'back',
-        };
-        this.navCtrl.back(animations);
-      }, 500);
       return this.authen;
     } else {
       alert('Sai thông tin!');

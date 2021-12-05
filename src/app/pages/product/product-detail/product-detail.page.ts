@@ -225,7 +225,7 @@ export class ProductDetailPage implements OnInit {
   checkProductInCart(product) {
     const check = this.listCart.filter((o) => o.id === product.id);
     if (check.length === 0) {
-      this.listCart.push(product);
+      this.listCart.push({...product,numBuy:1});
       //set new Product in Cart
       localStorage.setItem(this.nameCart, JSON.stringify(this.listCart));
     }

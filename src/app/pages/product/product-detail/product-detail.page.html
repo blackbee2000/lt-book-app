@@ -37,7 +37,7 @@
     <div class="product-detail_artist">
       <ion-text class="h6">Artist</ion-text>
       <div class="product-detail_artist-avatar">
-        <img src="assets/images/avatar.jpg" alt="avatar-artist">
+        <img [src]="productDetail.artistAvatar" alt="avatar-artist">
       </div>
       <p class="h6">{{productDetail.artistName}}</p>
       <p class="h8">{{productDetail.artistBornDay}}</p>

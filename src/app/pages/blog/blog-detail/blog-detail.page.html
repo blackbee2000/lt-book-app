@@ -13,8 +13,8 @@
       <ion-text>{{blogDetail.createAt}}</ion-text>
       <button (click)="share()">Share <ion-icon name="share-social-outline"></ion-icon></button>
     </div>
-    <img [src]="blogDetail.imgUrl" alt="image-book-detail">
-    <p>{{blogDetail.content}}</p>
+    <!-- <img [src]="blogDetail.imgUrl" alt="image-book-detail"> -->
+    <div [innerHTML]="blogDetail?.bigContent"></div>
   </div>
   <div class="blog-detail_relate-blog">
     <ion-text>Related articles</ion-text>

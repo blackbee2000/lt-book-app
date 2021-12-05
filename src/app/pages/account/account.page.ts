@@ -17,6 +17,7 @@ export class AccountPage implements OnInit {
   activePopup = false;
   loading = true;
   account: any;
+  token: any;
   cartProduct = [];
   boughtProduct = [
     {
@@ -30,6 +31,15 @@ export class AccountPage implements OnInit {
     },
     {
       id: 6,
+      name: 'Mysthemme',
+      img: './assets/images/book4.jpg',
+      isCheck: false,
+      price: 50000,
+      quantity: 1,
+      rating: 5,
+    },
+    {
+      id: 7,
       name: 'Mysthemme',
       img: './assets/images/book4.jpg',
       isCheck: false,
@@ -213,6 +223,9 @@ export class AccountPage implements OnInit {
       this.innerWidth = window.innerWidth;
       const info = localStorage.getItem('infoAccount') || null;
       this.account = JSON.parse(info);
+      this.token = JSON.parse(localStorage.getItem('token'));
+      this.boughtProduct =
+        JSON.parse(localStorage.getItem(`${this.account.phone}-bought`)) || [];
       console.log('account', this.account);
       if (this.account === null) {
         await this.getInfo();
@@ -242,6 +255,11 @@ export class AccountPage implements OnInit {
     this.loading = true;
     this.loadingProduct();
     this.type = type;
+    if (this.type === 'yourOrder') {
+      this.apiService.findBillByIdUser(this.account.id).subscribe((res) => {
+        this.listBillProduct = res.data;
+      });
+    }
   }
   checkAll() {
     this.chooseAll = !this.chooseAll;
@@ -281,7 +299,17 @@ export class AccountPage implements OnInit {
     } else if (this.type === 'bought') {
       this.boughtProduct =
         _.filter([...this.boughtProduct], (o) => o.isCheck === false) || [];
+      localStorage.setItem(
+        this.account.phone,
+        JSON.stringify(this.boughtProduct)
+      );
     }
+  }
+  convertMoney(money) {
+    return new Intl.NumberFormat('vi', {
+      style: 'currency',
+      currency: 'VND',
+    }).format(money);
   }
   payment() {
     this.cartProduct.forEach((e) => {
@@ -294,12 +322,9 @@ export class AccountPage implements OnInit {
         this.allProduct.push(e);
       }
     });
-    console.log(this.allProduct);
     const navigationExtras: NavigationExtras = {
       state: {
         listBook: this.allProduct,
-        listBill: this.listBillProduct,
-        listBillDetails: this.listBillProductDetail,
       },
     };
     this.allProduct = [];
@@ -307,18 +332,26 @@ export class AccountPage implements OnInit {
   }
   billDetail(item) {
     this.activePopup = true;
-    this.billProductDetail = item;
-    this.listBillProductDetail.forEach((e) => {
-      if (e.idBill === item.idBill) {
-        this.billProductDetail.product = e.product;
-        this.billProductDetail.paymentMethod = e.method;
-      }
-    });
-    console.log(this.billProductDetail);
-    const navigationExtras: NavigationExtras = {
-      state: { billProductDetail: this.billProductDetail },
-    };
-    this.router.navigateByUrl('/account/detail-bill', navigationExtras);
+    this.apiService
+      .findBillDetailsByIdBill(this.token.access_token, item.id)
+      .subscribe(
+        async (res) => {
+          this.billProductDetail = res.data;
+          console.log(this.billProductDetail);
+          const navigationExtras: NavigationExtras = {
+            state: { billProductDetail: this.billProductDetail,bill: item},
+          };
+          await this.router.navigateByUrl('/account/detail-bill', navigationExtras);
+        },
+        (err) => {
+          this.apiService
+            .refreshToken(this.token.refresh_token)
+            .subscribe((res) => {
+              this.token = res;
+              this.billDetail(item);
+            });
+        }
+      );
   }
   editInfo() {
     const navigationExtras: NavigationExtras = {

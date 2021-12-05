@@ -7,16 +7,16 @@
   <p class="h3 titlePage" style="text-align: right;padding-right: 20px;margin: 0;">Payment</p>
   <div class="information" (click)="editInfo()">
     <div class="information-name h5 titlePage">
-      {{inforDelivery.name}}
+      {{infoDelivery?.name}}
       <img src="./assets/icon/edit.svg" alt="" style="width:12px;height:12px" (click)="editInfo()">
     </div>
     <div class="information-decrip">
       <img src="./assets/icon/telephone.svg" alt="iconPhone" class="icon">
-      <p class="h9">{{inforDelivery.phone}}</p>
+      <p class="h9">{{infoDelivery?.phone}}</p>
     </div>
     <div class="information-decrip">
       <img src="./assets/icon/pin.svg" alt="iconPhone" class="icon">
-      <p class="h9">{{inforDelivery.address}}</p>
+      <p class="h9">{{infoDelivery?.address}}</p>
     </div>
   </div>
 </ion-header>
@@ -27,14 +27,17 @@
     </p>
     <div *ngFor="let item of listBook;index as i" class="product">
       <div class="product-img contain-img">
-        <img [src]="item.img" alt="">
+        <img [src]="item.imageBook" alt="">
       </div>
       <div class="product_info">
-        <div class="product_info-name h7" style="font-family: 'ESB';">
+        <div class="product_info-name h7" style="font-family: 'ESB'; text-overflow: ellipsis;
+        overflow: hidden;
+        width: 150px;
+        white-space: nowrap;">
           {{item.name}}
         </div>
         <div class="product_info-decrip h8">
-          <p>Price: {{item.price}}</p>
+          <p>Price: {{convertMoney(item.price)}}</p>
           <p>Rating: <ng-rating-bar [value]="item.rating" [ratingCount]="5" colorActive="#FFC107"
               [styles]="{fontSize: '18px', margin: '-5px'}"></ng-rating-bar>
           </p>
@@ -44,14 +47,13 @@
         <span class="h10">Quantity</span>
         <div class="quantity_input">
           <div class="quantity_input-icon"><span class="mid" style="height: 30px;" (click)="minus(item)">-</span></div>
-          <ion-input type="number" [(ngModel)]=item.quantity min="0" max="20"></ion-input>
+          <ion-input type="number" [(ngModel)]=item.numBuy min="0" max="20"></ion-input>
           <div class="quantity_input-icon"><span class="mid" style="height: 30px;" (click)="plus(item)">+</span></div>
         </div>
-        <p class="total h10">Total: {{item.price * item.quantity}}</p>
+        <p class="total h10">Total: {{convertMoney(item.price * item.numBuy)}}</p>
       </div>
     </div>
     <p class="h6 title">Payment Methods</p>
-
     <div class="payment">
       <div class="payment_select">
         <div class="payment_option" (click)="choseMethod()">
@@ -77,19 +79,19 @@
     <div class="totalMoney">
       <div class="money">
         <p>Total</p>
-        <p>{{total}}đ</p>
-      </div>
-      <div class="money">
-        <p>Surcharge</p>
-        <p>{{(total * 2) / 100}}đ</p>
+        <p>{{convertMoney(total)}}</p>
       </div>
       <div *ngIf="vnPay" class="money">
+        <p>Surcharge</p>
+        <p>{{convertMoney((total * 2) / 100)}}</p>
+      </div>
+      <div class="money">
         <p>Delivery charges</p>
-        <p>{{deliveryCharges}}đ</p>
+        <p>{{convertMoney(deliveryCharges)}}</p>
       </div>
       <div class="money">
         <p>Total amount</p>
-        <p>{{totalAmount}}đ</p>
+        <p>{{convertMoney(totalAmount)}}</p>
       </div>
     </div>
     <div class="button h5" (click)=payment()>

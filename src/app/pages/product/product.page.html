@@ -14,7 +14,7 @@
           <div class="menu-item-group">
             <div class="menu-item ion-activatable ripple-parent" *ngFor="let item of listTypeBook" (click)="hanldeChangeTypeBook(item)">
               <div class="menu-icon" [style.background]="item.color">
-                <ion-icon name="reader-outline"></ion-icon>
+                <ion-icon [name]="item.icon"></ion-icon>
               </div>
               <ion-text class="h8">{{item.name}}</ion-text>
               <ion-ripple-effect></ion-ripple-effect>
