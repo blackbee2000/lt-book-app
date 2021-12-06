@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
-import { ApiService } from './services';
+import { ApiService, ToastService } from './services';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -23,7 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    ApiService,
+    ApiService, ToastService
   ],
   bootstrap: [AppComponent],
 })

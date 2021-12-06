@@ -17,12 +17,8 @@
         <p class="h7">Price: {{productDetail.price}}d</p>
         <div class="rating-product">
           <p class="h7" style="margin-right: 5px;">Rating:</p>
-          <ng-rating-bar 
-            [value]="productDetail.rating" 
-            [ratingCount]="5" 
-            colorActive = "#FFC107"
-            [styles]="{fontSize: '22px', margin: '-5px'}"
-          ></ng-rating-bar>
+          <ng-rating-bar [value]="productDetail.rating" [ratingCount]="5" colorActive="#FFC107"
+            [styles]="{fontSize: '22px', margin: '-5px'}"></ng-rating-bar>
         </div>
         <p class="h7">Sold: {{productDetail.sold}}</p>
         <button class="h7" (click)="handleBuyProduct()">
@@ -43,38 +39,44 @@
       <p class="h8">{{productDetail.artistBornDay}}</p>
     </div>
     <div class="product-detail_comment">
+      <span style="text-align: center;font-weight: bold; font-size: 16px;">Comment</span>
       <div class="product-detail_comment-list">
         <div class="cmt-item">
-          <div class="cmt-item_comment">
-            <div class="cmt-item_comment-image">
-              <img src="assets/images/avt.jpg" alt="cmt">
-            </div>
-            <div class="cmt-item_comment-content h6">
-              Bài viết hay thế nhờ
-            </div>
+          <div *ngIf="listComment.length === 0;else commentList">
+            Enter comment
           </div>
-          <div class="cmt-item_reply">
-            <p class="h10" style="margin-right: 20px;">5 phút</p>
-            <p class="h10">Phản hồi</p>
-          </div>
-          <div class="cmt-item_replyCmt">
-            <div class="cmt-item_comment-image">
-              <img src="assets/images/avt.jpg" alt="cmt">
+          <ng-template #commentList>
+            <div *ngFor="let item of listComment;index as i">
+              <div class="cmt-item_comment">
+                <div class="cmt-item_comment-image">
+                  <img *ngIf="item.avtUser !== 'avatar'" [src]="item.avtUser" alt="cmt">
+                  <img *ngIf="item.avtUser === 'avatar'" src="./assets/images/noavt.jpg" alt="cmt">
+                </div>
+                <div class="cmt-item_comment-content h6">
+                  {{item.content}}
+                </div>
+              </div>
+              <div *ngFor="let item1 of item.child" class="cmt-item_replyCmt">
+                <div class="cmt-item_comment-image">
+                  <img *ngIf="item1.avtUser !== 'avatar'" [src]="item1.avtUser" alt="cmt">
+                  <img *ngIf="item1.avtUser === 'avatar'" src="./assets/images/noavt.jpg" alt="cmt">
+                </div>
+                <div class="cmt-item_comment-content h6">
+                  {{item1.content}}
+                </div>
+              </div>
             </div>
-            <div class="cmt-item_comment-content h6">
-              Bài viết hay thế nhờ
-            </div>
-          </div>
+          </ng-template>
         </div>
       </div>
       <div class="product-detail_comment-write">
         <div class="write-comment">
           <div class="write-comment_image">
-            <img src="assets/images/avatar.jpg" alt="cmt">
+            <img [src]="infoAccount?.avtUrl" alt="cmt">
           </div>
           <div class="write-comment_input">
-            <ion-input placeholder="Enter your comment"></ion-input>
-            <ion-icon name="send"></ion-icon>
+            <ion-input [(ngModel)]="postComment" placeholder="Enter your comment"></ion-input>
+            <ion-icon name="send" (click)="sendComment()"></ion-icon>
           </div>
         </div>
       </div>
@@ -84,17 +86,22 @@
       <ion-slides [options]="slideOpts">
         <ion-slide *ngFor="let item of listProductRelate" (click)="handleProductRelate(item)">
           <div class="relate-item-image">
-            <img [src]="item.imageURL" alt="relate-book">
+            <img [src]="item.imageBook" alt="relate-book">
           </div>
           <ion-text>{{item.name}}</ion-text>
         </ion-slide>
       </ion-slides>
-    </div> 
+    </div>
   </div>
 </ion-content>
 <div class="loading" *ngIf="loading">
   <div class="loading_shadow"></div>
-  <div class="loading_ring"><div></div><div></div><div></div><div></div></div>
+  <div class="loading_ring">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </div>
 <div [class.shadow]="shadow"></div>
 <div class="popup" [class.popupActive]="popup">

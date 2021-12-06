@@ -115,10 +115,10 @@ export class SigninPage implements OnInit {
               const checkCart = localStorage.getItem(respo.data.phone);
               if (checkCart === null) {
                 await localStorage.setItem(
-                  res.data.phone,
+                  respo.data.phone,
                   JSON.stringify(this.listCart)
                 );
-                this.router.navigateByUrl('/account');
+                await this.router.navigateByUrl('/account');
               }
             });
         });
