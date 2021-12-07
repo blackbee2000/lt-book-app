@@ -20,7 +20,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
   //api
-  //Authen
+  //*******************Authen***********************
   login(params): Observable<any> {
     return this.http.post(`${this.url}/login`, params, options);
   }
@@ -41,21 +41,21 @@ export class ApiService {
     });
   }
 
-  //Book
+  //***********************Book***********************
   getBook(type): Observable<any> {
     return this.http.post(`${this.url}/book/GetByType`, type);
   }
   getBookById(id): Observable<any> {
     return this.http.get(`${this.url}/book/GetById?id=${id}`);
   }
-  //comment
+  //***********************Comment***********************
   getComment(body): Observable<any>{
     return this.http.post(`${this.url}/comment/getByIdBook`,body);
   }
   sendComment(body): Observable<any>{
     return this.http.post(`${this.url}/comment/sendComment`,body);
   }
-  //Blog
+  //***********************Blog***********************
   getBlog(): Observable<any> {
     return this.http.get(`${this.url}/blog/GetByQuery`);
   }
@@ -63,7 +63,7 @@ export class ApiService {
     return this.http.get(`${this.url}/blog/GetById?id=${id}`);
   }
 
-  //bill & bill-details
+  //***********************bill & bill-details***********************
   createBill(token, body): Observable<any> {
     return this.http.post(`${this.url}/bill/Create`, body, {
       headers: new HttpHeaders({
@@ -94,8 +94,12 @@ export class ApiService {
       }
     );
   }
-  //create account
+  //***********************create account***********************
   createAccount(body): Observable<any>{
     return this.http.post(`${this.url}/user/save`,body);
+  }
+  //***********************Contact***********************
+  sendContact(body): Observable<any>{
+    return this.http.post(`${this.url}/contact/sendContact`,body);
   }
 }

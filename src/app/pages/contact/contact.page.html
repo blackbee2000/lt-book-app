@@ -8,42 +8,74 @@
   <ion-content [scrollEvents]="true">
     <div class="container">
       <div class="title">Contact</div>
-      <div class="form_control">
-        <div class="form_control-label">
-          <p>Fullname:</p>
+      <form [formGroup]="formData">
+        <div class="form_control">
+          <div class="form_control-label">
+            <p>Fullname:</p>
+          </div>
+          <div class="form_control-input">
+            <ion-input type="text" formControlName="fullName">
+            </ion-input>
+          </div>
+          <ng-container *ngFor="let validation of formMessage['fullName']">
+            <div class="form-error-message"
+              *ngIf="formSubmitted && formData.get('fullName')['hasError'](validation.type)">
+              <ion-icon name="warning"></ion-icon>
+              <span>{{validation.message}}</span>
+            </div>
+          </ng-container>
         </div>
-        <div class="form_control-input">
-          <ion-input type="text">
-          </ion-input>
+
+        <div class="form_control">
+          <div class="form_control-label">
+            <p>Phone:</p>
+          </div>
+          <div class="form_control-input">
+            <ion-input type="number" formControlName="phone">
+            </ion-input>
+          </div>
+          <ng-container *ngFor="let validation of formMessage['phone']">
+            <div class="form-error-message" *ngIf="formSubmitted && formData.get('phone')['hasError'](validation.type)">
+              <ion-icon name="warning"></ion-icon>
+              <span>{{validation.message}}</span>
+            </div>
+          </ng-container>
         </div>
-      </div>
-      <div class="form_control">
-        <div class="form_control-label">
-          <p>Phone:</p>
+        
+        <div class="form_control">
+          <div class="form_control-label">
+            <p>Email:</p>
+          </div>
+          <div class="form_control-input">
+            <ion-input type="text" formControlName="email">
+            </ion-input>
+          </div>
+          <ng-container *ngFor="let validation of formMessage['email']">
+            <div class="form-error-message" *ngIf="formSubmitted && formData.get('email')['hasError'](validation.type)">
+              <ion-icon name="warning"></ion-icon>
+              <span>{{validation.message}}</span>
+            </div>
+          </ng-container>
         </div>
-        <div class="form_control-input">
-          <ion-input type="number">
-          </ion-input>
+        
+        <div class="form_control">
+          <div class="form_control-label">
+            <p>Note:</p>
+          </div>
+          <div class="form_control-input">
+            <ion-textarea type="text" rows="4" formControlName="note"></ion-textarea>
+          </div>
+          <ng-container *ngFor="let validation of formMessage['fullName']">
+            <div class="form-error-message"
+              *ngIf="formSubmitted && formData.get('fullName')['hasError'](validation.type)">
+              <ion-icon name="warning"></ion-icon>
+              <span>{{validation.message}}</span>
+            </div>
+          </ng-container>
         </div>
-      </div>
-      <div class="form_control">
-        <div class="form_control-label">
-          <p>Email:</p>
-        </div>
-        <div class="form_control-input">
-          <ion-input type="text">
-          </ion-input>
-        </div>
-      </div>
-      <div class="form_control">
-        <div class="form_control-label">
-          <p>Note:</p>
-        </div>
-        <div class="form_control-input">
-          <ion-textarea type="text" rows="4"></ion-textarea>
-        </div>
-      </div>
-      <div class="button">
+        
+      </form>
+      <div class="button" (click)="sendContact()">
         Send
       </div>
     </div>
