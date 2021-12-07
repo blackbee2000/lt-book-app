@@ -128,6 +128,13 @@ ion-content {
         }
       }
     }
+    .one-product{
+      column-count: 1;
+      width: 50%;
+      column-gap: 12px;
+      margin-bottom: 40px;
+
+    }
   }
   .btn-more {
     position: fixed;

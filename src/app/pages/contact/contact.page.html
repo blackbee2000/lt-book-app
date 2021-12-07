@@ -65,9 +65,9 @@
           <div class="form_control-input">
             <ion-textarea type="text" rows="4" formControlName="note"></ion-textarea>
           </div>
-          <ng-container *ngFor="let validation of formMessage['fullName']">
+          <ng-container *ngFor="let validation of formMessage['note']">
             <div class="form-error-message"
-              *ngIf="formSubmitted && formData.get('fullName')['hasError'](validation.type)">
+              *ngIf="formSubmitted && formData.get('note')['hasError'](validation.type)">
               <ion-icon name="warning"></ion-icon>
               <span>{{validation.message}}</span>
             </div>

@@ -24,9 +24,12 @@
       </ion-card-content>
     </ion-card>
   </div>
-  <div class="list-product" *ngIf="loadingSkeleton">
+  <div class="list-product" *ngIf="!loadingSkeleton, else loadingSkele">
     <h3 class="h3">{{labelTypeBook}}</h3>
-    <div class="list-product_item">
+    <div *ngIf="listProduct.length === 0" class="list-product_item">
+      <p style="padding-left: 15px; margin-top: 0px; font-weight: 500;" class="h9">There are no books</p>
+    </div>
+    <div [class.one-product]="listProduct.length === 1" class="list-product_item">
       <ion-card *ngFor="let item of listProduct" (click)="goDetail(item)">
         <img [src]="item.imageBook" alt="product-item">
         <div class="info-product">
@@ -45,19 +48,22 @@
       </ion-card>
     </div>
   </div>
-  <div class="list-product" *ngIf="!loadingSkeleton">
-    <ion-skeleton-text animated style="width: 35%; height: 30px; margin: 20px 0 0 10px;"></ion-skeleton-text>
-    <div class="list-product_item">
-      <ion-card *ngFor="let i of [1,2,3,4,5,6]">
-        <ion-skeleton-text animated style="width: 90%; height: 100%;"></ion-skeleton-text>
-        <div class="info-product">
-          <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
-          <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
-          <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
-        </div>
-      </ion-card>
+  <ng-template #loadingSkele>
+    <div class="list-product">
+      <ion-skeleton-text animated style="width: 35%; height: 30px; margin: 20px 0 0 10px;"></ion-skeleton-text>
+      <div class="list-product_item">
+        <ion-card *ngFor="let i of [1,2,3,4,5,6]">
+          <ion-skeleton-text animated style="width: 100%; height: 158px;"></ion-skeleton-text>
+          <div class="info-product">
+            <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+            <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+          </div>
+        </ion-card>
+      </div>
     </div>
-  </div>
+  </ng-template>
+  
   <div class="btn-more" [class.btn-active]="isClick" (click)="hanldeClickButtonMore('open')">
     <ion-icon name="ellipsis-vertical"></ion-icon>
   </div>
@@ -77,5 +83,5 @@
 <div [class.shadow]="shadow" (click)="hanldeClickButtonMore('shadow')"></div>
 <div class="search" [class.activeSearch]="search">
   <p>Input text key:</p>
-  <ion-searchbar></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchText" (keyup.enter)="hanldeSearch($event.target.value)"></ion-searchbar>
 </div>
