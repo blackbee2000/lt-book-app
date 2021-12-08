@@ -72,7 +72,8 @@
       <div class="product-detail_comment-write">
         <div class="write-comment">
           <div class="write-comment_image">
-            <img [src]="infoAccount?.avtUrl" alt="cmt">
+            <img *ngIf="infoAccount?.avtUrl" [src]="infoAccount?.avtUrl" alt="cmt">
+            <img src="./assets/images/noavt.jpg" alt="cmt">
           </div>
           <div class="write-comment_input">
             <ion-input [(ngModel)]="postComment" placeholder="Enter your comment"></ion-input>

@@ -213,7 +213,6 @@ export class ProductDetailPage implements OnInit {
       this.listComment.forEach((comment) => {
         comment.child = [];
       });
-
       this.getAllComment.forEach((child) => {
         if (child.level === 1) {
           this.listComment.forEach((comment) => {
@@ -252,6 +251,7 @@ export class ProductDetailPage implements OnInit {
       case 'cancel':
         this.shadow = false;
         this.popup = false;
+        this.popupLogin = false;
         break;
       case 'ok':
         this.shadow = false;
@@ -273,25 +273,30 @@ export class ProductDetailPage implements OnInit {
     }
   }
   sendComment() {
-    const param = {
-      avtUser: this.infoAccount.avtUrl,
-      content: this.postComment,
-      id: null,
-      idBook: this.productDetail.id,
-      idParent: null,
-      level: 0,
-      nameUser: this.infoAccount.name,
-    };
-    console.log(param);
-    this.apiService.sendComment(param).subscribe(
-      (res) => {
-        this.toastCtrl.successToast('Send Comment Successful!');
-        this.getComment({ idBook: this.productDetail.id });
-        this.postComment='';
-      },
-      (err) => {
-        this.toastCtrl.errorToast(err);
-      }
-    );
+    if (this.isLogin === false) {
+      this.shadow = true;
+      this.popupLogin = true;
+    } else {
+      const param = {
+        avtUser: this.infoAccount.avtUrl,
+        content: this.postComment,
+        id: null,
+        idBook: this.productDetail.id,
+        idParent: null,
+        level: 0,
+        nameUser: this.infoAccount.name,
+      };
+      console.log(param);
+      this.apiService.sendComment(param).subscribe(
+        (res) => {
+          this.toastCtrl.successToast('Send Comment Successful!');
+          this.getComment({ idBook: this.productDetail.id });
+          this.postComment = '';
+        },
+        (err) => {
+          this.toastCtrl.errorToast(err);
+        }
+      );
+    }
   }
 }

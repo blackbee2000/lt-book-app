@@ -62,7 +62,9 @@ export class ApiService {
   getBlogById(id): Observable<any> {
     return this.http.get(`${this.url}/blog/GetById?id=${id}`);
   }
-
+  getBlogRelated(type): Observable<any>{
+    return this.http.post(`${this.url}/blog/GetByTags`,type);
+  }
   //***********************bill & bill-details***********************
   createBill(token, body): Observable<any> {
     return this.http.post(`${this.url}/bill/Create`, body, {
