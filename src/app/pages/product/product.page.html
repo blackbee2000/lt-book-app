@@ -1,6 +1,5 @@
 <ion-header class="ion-no-border">
-  <app-header
-  [menuHeight]="menuHeight" [wherePage]="wherePage"></app-header>
+  <app-header [menuHeight]="menuHeight" [wherePage]="wherePage"></app-header>
 </ion-header>
 
 <ion-content>
@@ -12,7 +11,8 @@
       <ion-card-content>
         <div class="menu-content">
           <div class="menu-item-group">
-            <div class="menu-item ion-activatable ripple-parent" *ngFor="let item of listTypeBook" (click)="hanldeChangeTypeBook(item)">
+            <div class="menu-item ion-activatable ripple-parent" *ngFor="let item of listTypeBook"
+              (click)="hanldeChangeTypeBook(item)">
               <div class="menu-icon" [style.background]="item.color">
                 <ion-icon [name]="item.icon"></ion-icon>
               </div>
@@ -24,46 +24,66 @@
       </ion-card-content>
     </ion-card>
   </div>
-  <div class="list-product" *ngIf="!loadingSkeleton, else loadingSkele">
+  <div class="list-product" [ngStyle]="{ height: menuHeight + 'px'}" *ngIf="!loadingSkeleton, else loadingSkele">
     <h3 class="h3">{{labelTypeBook}}</h3>
     <div *ngIf="listProduct.length === 0" class="list-product_item">
       <p style="padding-left: 15px; margin-top: 0px; font-weight: 500;" class="h9">There are no books</p>
     </div>
     <div [class.one-product]="listProduct.length === 1" class="list-product_item">
-      <ion-card *ngFor="let item of listProduct" (click)="goDetail(item)">
-        <img [src]="item.imageBook" alt="product-item">
-        <div class="info-product">
-          <h4 class="h6">{{item.name}}</h4>
-          <p class="h9">Price: {{item.price}}d</p>
-          <div class="rating-product">
-            <p class="h9" style="margin-right: 5px;">Rating:</p>
-            <ng-rating-bar 
-              [value]="item.rating" 
-              [ratingCount]="5" 
-              colorActive = "#FFC107"
-              [styles]="{fontSize: '18px', margin: '-5px'}"
-            ></ng-rating-bar>
+      <div *ngFor="let item of listProduct;index as i" (click)="goDetail(item)" class="product_tr">
+        <ion-card *ngIf="i % 2 !== 0" style="margin-bottom:30px; margin-top: 0px;">
+          <img [src]="item.imageBook" alt="product-item">
+          <div class="info-product">
+            <h4 class="h6">{{item.name}}</h4>
+            <p class="h9">Price: {{item.price}}d</p>
+            <div class="rating-product">
+              <p class="h9" style="margin-right: 5px;">Rating:</p>
+              <ng-rating-bar [value]="item.rating" [ratingCount]="5" colorActive="#FFC107"
+                [styles]="{fontSize: '18px', margin: '-5px'}"></ng-rating-bar>
+            </div>
           </div>
-        </div>
-      </ion-card>
+        </ion-card>
+        <ion-card *ngIf="i % 2 === 0" style="margin-top:30px;margin-bottom: 0px;">
+          <img [src]="item.imageBook" alt="product-item">
+          <div class="info-product">
+            <h4 class="h6">{{item.name}}</h4>
+            <p class="h9">Price: {{item.price}}d</p>
+            <div class="rating-product">
+              <p class="h9" style="margin-right: 5px;">Rating:</p>
+              <ng-rating-bar [value]="item.rating" [ratingCount]="5" colorActive="#FFC107"
+                [styles]="{fontSize: '18px', margin: '-5px'}"></ng-rating-bar>
+            </div>
+          </div>
+        </ion-card>
+      </div>
     </div>
   </div>
   <ng-template #loadingSkele>
     <div class="list-product">
       <ion-skeleton-text animated style="width: 35%; height: 30px; margin: 20px 0 0 10px;"></ion-skeleton-text>
       <div class="list-product_item">
-        <ion-card *ngFor="let i of [1,2,3,4,5,6]">
-          <ion-skeleton-text animated style="width: 100%; height: 158px;"></ion-skeleton-text>
-          <div class="info-product">
-            <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
-            <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
-            <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
-          </div>
-        </ion-card>
+        <div class="product_tr" *ngFor="let i of [1,2,3,4,5,6]">
+          <ion-card *ngIf="i % 2 !== 0" style="margin-bottom:0px; margin-top: 30px;">
+            <ion-skeleton-text animated style="width: 100%; height: 158px;"></ion-skeleton-text>
+            <div class="info-product">
+              <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+            </div>
+          </ion-card>
+          <ion-card *ngIf="i % 2 === 0" style="margin-bottom:30px; margin-top: 0px;">
+            <ion-skeleton-text animated style="width: 100%; height: 158px;"></ion-skeleton-text>
+            <div class="info-product">
+              <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 100%; height: 10px; margin-top: 10px;"></ion-skeleton-text>
+            </div>
+          </ion-card>
+        </div>
       </div>
     </div>
   </ng-template>
-  
+
   <div class="btn-more" [class.btn-active]="isClick" (click)="hanldeClickButtonMore('open')">
     <ion-icon name="ellipsis-vertical"></ion-icon>
   </div>
@@ -78,7 +98,12 @@
 </ion-content>
 <div class="loading" *ngIf="loading">
   <div class="loading_shadow"></div>
-  <div class="loading_ring"><div></div><div></div><div></div><div></div></div>
+  <div class="loading_ring">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 </div>
 <div [class.shadow]="shadow" (click)="hanldeClickButtonMore('shadow')"></div>
 <div class="search" [class.activeSearch]="search">

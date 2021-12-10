@@ -25,8 +25,8 @@
             {{bill.code}}
           </div>
           <div class="informationBill_decrip-content h9">
-            <p>Total: {{bill.total}}</p>
-            <p>Order daily: {{billProductDetail.date}}</p>
+            <p>Total: {{convertMoney(bill.total)}}</p>
+            <p>Order daily: {{bill.date}}</p>
           </div>
         </div>
         <div *ngIf="bill.status==='payment';else indelivery" class="informationBill-status"
@@ -46,11 +46,11 @@
           {{item.name}}
         </div>
         <div class="product_info-decrip h8">
-          <p>Price: {{item.price}}</p>
+          <p>Price: {{convertMoney(item.price)}}</p>
           <p>Quantity: {{item.amount}}</p>
         </div>
       </div>
-      <p class="total">Total: {{item.price * item.amount}}</p>
+      <p class="total">Total: {{convertMoney(item.price * item.amount)}}</p>
     </div>
     <p class="h6 title" style="float: right;margin-right: -20px; padding:5px 25px 5px 5px; text-align: right;">Payment
     </p>
@@ -72,7 +72,8 @@
     </div>
     <div class="totalMoney">
       <p class="h6">Delivery charges: 40.000đ</p>
-      <p class="h6">Total: {{bill.total}}</p>
+      <p *ngIf="bill.status==='payment'" class="h6">Surcharge: 2%</p>
+      <p class="h6">Total: {{convertMoney(bill.total)}}</p>
     </div>
   </div>
 </ion-content>

@@ -19,35 +19,7 @@ export class AccountPage implements OnInit {
   account: any;
   token: any;
   cartProduct = [];
-  boughtProduct = [
-    {
-      id: 1,
-      name: 'Mysthem',
-      img: './assets/images/book.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 5,
-    },
-    {
-      id: 6,
-      name: 'Mysthemme',
-      img: './assets/images/book4.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 5,
-    },
-    {
-      id: 7,
-      name: 'Mysthemme',
-      img: './assets/images/book4.jpg',
-      isCheck: false,
-      price: 50000,
-      quantity: 1,
-      rating: 5,
-    },
-  ];
+  boughtProduct: any = [];
   listBillProduct = [
     {
       idBill: '1023545',
@@ -258,6 +230,8 @@ export class AccountPage implements OnInit {
     if (this.type === 'yourOrder') {
       this.apiService.findBillByIdUser(this.account.id).subscribe((res) => {
         this.listBillProduct = res.data;
+      },(err)=>{
+        this.listBillProduct = [];
       });
     }
   }
@@ -339,15 +313,19 @@ export class AccountPage implements OnInit {
           this.billProductDetail = res.data;
           console.log(this.billProductDetail);
           const navigationExtras: NavigationExtras = {
-            state: { billProductDetail: this.billProductDetail,bill: item},
+            state: { billProductDetail: this.billProductDetail, bill: item },
           };
-          await this.router.navigateByUrl('/account/detail-bill', navigationExtras);
+          await this.router.navigateByUrl(
+            '/account/detail-bill',
+            navigationExtras
+          );
         },
         (err) => {
           this.apiService
             .refreshToken(this.token.refresh_token)
             .subscribe((res) => {
               this.token = res;
+              localStorage.setItem('token', JSON.stringify(res));
               this.billDetail(item);
             });
         }

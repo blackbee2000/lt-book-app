@@ -49,11 +49,11 @@ export class ApiService {
     return this.http.get(`${this.url}/book/GetById?id=${id}`);
   }
   //***********************Comment***********************
-  getComment(body): Observable<any>{
-    return this.http.post(`${this.url}/comment/getByIdBook`,body);
+  getComment(body): Observable<any> {
+    return this.http.post(`${this.url}/comment/getByIdBook`, body);
   }
-  sendComment(body): Observable<any>{
-    return this.http.post(`${this.url}/comment/sendComment`,body);
+  sendComment(body): Observable<any> {
+    return this.http.post(`${this.url}/comment/sendComment`, body);
   }
   //***********************Blog***********************
   getBlog(): Observable<any> {
@@ -62,8 +62,8 @@ export class ApiService {
   getBlogById(id): Observable<any> {
     return this.http.get(`${this.url}/blog/GetById?id=${id}`);
   }
-  getBlogRelated(type): Observable<any>{
-    return this.http.post(`${this.url}/blog/GetByTags`,type);
+  getBlogRelated(type): Observable<any> {
+    return this.http.post(`${this.url}/blog/GetByTags`, type);
   }
   //***********************bill & bill-details***********************
   createBill(token, body): Observable<any> {
@@ -97,11 +97,19 @@ export class ApiService {
     );
   }
   //***********************create account***********************
-  createAccount(body): Observable<any>{
-    return this.http.post(`${this.url}/user/save`,body);
+  createAccount(body): Observable<any> {
+    return this.http.post(`${this.url}/user/save`, body);
+  }
+  updateAccount(body,token,idUser): Observable<any> {
+    return this.http.put(`${this.url}/user/update?id=${idUser}`, body, {
+      headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
   //***********************Contact***********************
-  sendContact(body): Observable<any>{
-    return this.http.post(`${this.url}/contact/sendContact`,body);
+  sendContact(body): Observable<any> {
+    return this.http.post(`${this.url}/contact/sendContact`, body);
   }
 }

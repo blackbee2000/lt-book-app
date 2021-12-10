@@ -18,4 +18,10 @@ export class DetailBillPage implements OnInit {
       console.log(this.billProductDetail);
     }
   }
+  convertMoney(money) {
+    return new Intl.NumberFormat('vi', {
+      style: 'currency',
+      currency: 'VND',
+    }).format(money);
+  }
 }

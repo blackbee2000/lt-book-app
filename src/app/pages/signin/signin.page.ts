@@ -114,7 +114,7 @@ export class SigninPage implements OnInit {
               localStorage.setItem('infoAccount', JSON.stringify(respo.data));
               const checkCart = localStorage.getItem(respo.data.phone);
               if (checkCart === null) {
-                await localStorage.setItem(
+                localStorage.setItem(
                   respo.data.phone,
                   JSON.stringify(this.listCart)
                 );

@@ -79,61 +79,65 @@ ion-content {
     }
   }
   .list-product {
-    padding: 0px 15px 0 15px;
+    padding: 0px 15px 15px;
     h3 {
       margin: 0;
       font-family: DR;
       padding: 20px 0 0 10px;
     }
     &_item {
-      column-count: 2;
-      column-gap: 12px;
-      margin-bottom: 40px;
-      ion-card {
-        border-radius: 10px;
-        margin: 0;
-        box-shadow: rgb(0 0 0 / 10%) 0px 4px 16px;
-        margin-top: 30px;
-        img {
-          border-radius: 10px 10px 15px 0px;
-          width: 100%;
-          height: 158px;
-          object-fit: cover;
-        }
-        .info-product {
-          padding: 10px 10px 20px 10px;
-          h4 {
-            margin: 0;
-            font-family: EBI;
-            color: #000;
-            text-transform: uppercase;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
+      // column-count: 2;
+      // grid-column-gap: 12px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      .product_tr {
+        width: 48%;
+        ion-card {
+          border-radius: 10px;
+          margin: 0;
+          box-shadow: rgb(0 0 0 / 10%) 0px 4px 16px;
+          margin-top: 30px;
+          img {
+            border-radius: 10px 10px 15px 0px;
+            width: 100%;
+            height: 158px;
+            object-fit: cover;
           }
-          p {
-            margin: 0;
-            font-family: EN;
-            color: #000;
-          }
-          .rating-product {
-            display: flex;
-            align-items: center;
-            ion-text {
-              margin-right: 5px;
+          .info-product {
+            padding: 10px 10px 20px 10px;
+            h4 {
+              margin: 0;
+              font-family: EBI;
+              color: #000;
+              text-transform: uppercase;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 1;
+              -webkit-box-orient: vertical;
+            }
+            p {
+              margin: 0;
+              font-family: EN;
+              color: #000;
+            }
+            .rating-product {
+              display: flex;
+              align-items: center;
+              ion-text {
+                margin-right: 5px;
+              }
             }
           }
         }
       }
     }
-    .one-product{
-      column-count: 1;
-      width: 50%;
-      column-gap: 12px;
+    .one-product {
+      // column-count: 1;
+      width: 100%;
+      // column-gap: 12px;
       margin-bottom: 40px;
-
     }
   }
   .btn-more {

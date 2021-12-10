@@ -13,7 +13,7 @@
       </ng-template>
     </div>
     <div class="information_profile">
-      <div class="information_profile-name">
+      <div class="information_profile-name" style="font-size: 16px;">
         <p>{{account?.name}}</p>
         <img src="./assets/icon/edit.svg" alt="" style="width:12px;height:12px" (click)="editInfo()">
       </div>
@@ -29,7 +29,7 @@
           <span>Product in card</span>
         </ion-col>
         <ion-col size="5" class="bought">
-          <p>{{boughtProduct.length}}</p>
+          <p>{{boughtProduct?.length}}</p>
           <span>Purchased</span>
         </ion-col>
       </ion-row>
@@ -110,7 +110,7 @@
               </div>
               <div class="product_information-item">
                 <div class="name">{{item.name}}</div>
-                <div class="prop">Price: {{convertMoney(item.price)}} đ</div>
+                <div class="prop">Price: {{convertMoney(item.price)}}</div>
                 <div class="prop">Rating: <ng-rating-bar disabled="true" [value]="item.rating" [ratingCount]="5"
                     colorActive="#FFC107" [styles]="{fontSize: '18px', margin: '-5px'}"></ng-rating-bar>
                 </div>
