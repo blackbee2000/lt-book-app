@@ -43,7 +43,6 @@
           margin-bottom: 42px;
         }
         .form-control {
-          margin-bottom: 15px;
           position: relative;
           ion-input {
             --background: white;
@@ -63,7 +62,10 @@
             z-index: 2;
             transform: translate(0, -50%);
           }
-          &:nth-last-child(2) {
+        }
+        .form-value{
+          margin-bottom: 15px;
+          &:nth-last-child(1) {
             margin-bottom: 40px;
           }
         }

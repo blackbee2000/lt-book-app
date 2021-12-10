@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<ion-header class="ion-no-border" [ngClass]="{'active-header' : show}">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button text="Back" defaultHref="/"></ion-back-button>
@@ -97,5 +97,48 @@
     <div class="button h5" (click)=payment()>
       Payment
     </div>
+  </div>
+  <div [ngClass]="{'active' : show}" class="popUp" style="position:absolute; 
+  top: 45%; left: 50%; transform: translate(-50%,-50%); opacity: 0; transition: .5s;
+  visibility: hidden; z-index: 9;">
+    <div class="title-popup">
+      <div class="image done">
+        <img src="./assets/icon/check.svg" alt="done" class="icon">
+      </div>
+      <span style="color: #1d9e2a; font-weight: 600; margin-top: 5px;margin-bottom: 10px;">Order Successfull!</span>
+    </div>
+    <div class="content-popup">
+      <span class="info">Receiver: {{infoDelivery.name}}</span>
+      <span class="info">Address: {{infoDelivery.address}}</span>
+      <span class="info">Phone number: {{infoDelivery.phone}}</span>
+      <span style="font-weight: 500; margin: 10px 0;">-------⚡️ Bill Information ⚡️-------</span>
+      <div *ngFor="let item of infoBillDetails;index as i" style="width:100%;">
+        <div class="book"
+          style="width: 100%; height: 85px; padding: 10px; display: flex; align-items: center; justify-content: space-between;">
+          <div class="book-img" style="width: 20%;height: 100%; overflow: hidden;">
+            <img [src]="item.imgBook" style="width:100%;height: 100%; object-fit: cover;" alt="">
+          </div>
+          <div class="book_info"
+            style="width:70%;height: 100%; display: flex; flex-direction: column; justify-content: space-evenly;">
+            <div class="book_info-name" style="font-weight:600;font-size: 14px;">
+              {{item.nameBook}}
+            </div>
+            <div class="book_info-amount" style="font-size: 12px;">
+              Amount: {{item.amount}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <span>Total: {{bill.total}}</span>
+      <span>Thank you</span>
+      <span>❤️❤️❤️</span>
+    </div>
+    <div class="btn" style="display: flex; align-items: center; justify-content: center; width: 100%;">
+      <div class="btn-ok" style="padding: 10px; width: 40% ;border-radius: 25px; border: 1px solid #000; text-align: center;" (click)="NavigateToAccount()">OK</div>
+    </div>
+  </div>
+  <div [ngClass]="{'active' : show}" class="shadow" style="position: fixed;z-index: 2; ;top: 0; left: 0;
+   right: 0; bottom: 0; background: rgba(0, 0, 0, 0.671); opacity: 0; transition: .5s; visibility: hidden;"
+    (click)="show = false">
   </div>
 </ion-content>

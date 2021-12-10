@@ -7,10 +7,13 @@
   <div class="borderheader"></div>
   <div class="information">
     <div class="information-avt">
-      <img [src]="account?.avtUrl" alt="">
+      <img *ngIf="account.avtUrl;else noAvt" [src]="account?.avtUrl" alt="">
+      <ng-template #noAvt>
+        <img src="./assets/images/noavt.jpg" alt="">
+      </ng-template>
     </div>
     <div class="information_profile">
-      <div class="information_profile-name">
+      <div class="information_profile-name" style="font-size: 16px;">
         <p>{{account?.name}}</p>
         <img src="./assets/icon/edit.svg" alt="" style="width:12px;height:12px" (click)="editInfo()">
       </div>
@@ -26,7 +29,7 @@
           <span>Product in card</span>
         </ion-col>
         <ion-col size="5" class="bought">
-          <p>{{boughtProduct.length}}</p>
+          <p>{{boughtProduct?.length}}</p>
           <span>Purchased</span>
         </ion-col>
       </ion-row>
@@ -107,13 +110,13 @@
               </div>
               <div class="product_information-item">
                 <div class="name">{{item.name}}</div>
-                <div class="prop">Price: {{item.price}} đ</div>
+                <div class="prop">Price: {{convertMoney(item.price)}}</div>
                 <div class="prop">Rating: <ng-rating-bar disabled="true" [value]="item.rating" [ratingCount]="5"
                     colorActive="#FFC107" [styles]="{fontSize: '18px', margin: '-5px'}"></ng-rating-bar>
                 </div>
               </div>
               <div class="product-total">
-                Total: {{item.price * item.quantity}}
+                {{item.artistName}}
               </div>
             </div>
           </div>
@@ -153,8 +156,8 @@
               </ng-template>
               <div class="product_information-item">
                 <div class="name">{{item.code}}</div>
-                <div class="prop">Total: {{item.total}} đ</div>
-                <div class="prop">Order daily: {{item.orderDaily}}</div>
+                <div class="prop">Total: {{convertMoney(item.total)}}</div>
+                <div class="prop">Order daily: {{item.date}}</div>
               </div>
               <div *ngIf="item.status==='payment';else delivering" class="product-total" style="color: #1EA22B;">
                 Payment

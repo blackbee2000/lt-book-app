@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiService } from 'src/app/services';
+import { ApiService, ToastService } from 'src/app/services';
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -25,7 +25,8 @@ export class LoginPage implements OnInit {
     private apiService: ApiService,
     private http: HttpClient,
     private location: Location,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    private toastCtrl: ToastService
   ) {}
   ngOnInit() {
     this.menuHeight = window.innerHeight;
@@ -61,11 +62,11 @@ export class LoginPage implements OnInit {
       const body = new URLSearchParams();
       body.set('username', data.username);
       body.set('password', data.password);
-      await this.apiService
-        .login(body.toString())
-        .subscribe(async (response) => {
+      await this.apiService.login(body.toString()).subscribe(
+        async (response) => {
           this.authen = response;
           localStorage.setItem('token', JSON.stringify(response));
+          this.toastCtrl.successToast('Login Success!');
           await this.apiService
             .getInfoUser(this.authen.access_token)
             .subscribe(async (res) => {
@@ -82,8 +83,16 @@ export class LoginPage implements OnInit {
                 animationDirection: 'back',
               };
               this.navCtrl.back(animations);
+            },(error)=>{
+              this.toastCtrl.errorToast('Can`t get information Account!');
             });
-        });
+        },
+        (error) => {
+          if(error.status === 403){
+            this.toastCtrl.errorToast('Wrong login information!');
+          }
+        }
+      );
       return this.authen;
     } else {
       alert('Sai thông tin!');

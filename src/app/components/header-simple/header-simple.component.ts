@@ -8,7 +8,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class HeaderSimpleComponent implements OnInit {
   @Input() menuHeight: number;
   @Input() wherePage: string;
-  @Input() isLogin: boolean;
   showMenu = false;
   infoAccount;
   constructor(private router: Router, private route: ActivatedRoute) {}

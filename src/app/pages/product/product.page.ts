@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { ApiService } from 'src/app/services';
+// import { EventEmitter } from 'stream';
 
 @Component({
   selector: 'app-product',
@@ -12,159 +13,12 @@ export class ProductPage implements OnInit {
   wherePage = 'product';
   backgroundShadow: any = false;
   loading: any = false;
-  loadingSkeleton: any = false;
+  loadingSkeleton = false;
   search: any = false;
   shadow: any = false;
   labelTypeBook: any = '';
   listProduct: any = [];
-  listProduct1: any = [
-    {
-      imageURL: 'assets/images/book.jpg',
-      name: 'identity theft',
-      price: '50.000',
-      rating: 4,
-      sold: 2000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      imageURL: 'assets/images/book2.jpg',
-      name: 'identity theft',
-      price: '50.000',
-      rating: 4,
-      sold: 2000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      imageURL: 'assets/images/book3.jpg',
-      name: 'identity theft',
-      price: '50.000',
-      rating: 4,
-      sold: 2000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      imageURL: 'assets/images/book4.jpg',
-      name: 'identity theft',
-      price: '50.000',
-      rating: 4,
-      sold: 2000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      imageURL: 'assets/images/book5.jpg',
-      name: 'identity theft',
-      price: '50.000',
-      rating: 4,
-      sold: 2000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      imageURL: 'assets/images/book6.jpg',
-      name: 'identity theft',
-      price: '50.000',
-      rating: 4,
-      sold: 2000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-  ];
-  listProduct2: any = [
-    {
-      imageURL: 'assets/images/book7.jpg',
-      name: 'identity theft',
-      price: '50.000',
-      rating: 4,
-      sold: 1000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      imageURL: 'assets/images/book6.jpg',
-      name: 'identity theft',
-      price: '50.000',
-      rating: 4,
-      sold: 1000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      imageURL: 'assets/images/book5.jpg',
-      name: 'identity theft',
-      price: '50.000',
-      rating: 4,
-      sold: 1000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      imageURL: 'assets/images/book4.jpg',
-      name: 'identity theft',
-      price: '50.000',
-      rating: 4,
-      sold: 1000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      imageURL: 'assets/images/book3.jpg',
-      name: 'identity theft',
-      price: '50.000',
-      rating: 4,
-      sold: 1000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      imageURL: 'assets/images/book2.jpg',
-      name: 'identity theft',
-      price: '50.000',
-      rating: 4,
-      sold: 1000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-  ];
+  searchText = '';
   listTypeBook: any = [
     {
       name: 'TextBook',
@@ -203,25 +57,36 @@ export class ProductPage implements OnInit {
     },
   ];
   isClick: any = false;
+  // searchItem = new EventEmitter();
 
   constructor(private router: Router, private apiService: ApiService) {}
 
   ngOnInit() {
     this.menuHeight = window.innerHeight;
     this.labelTypeBook = 'TextBook';
-    this.listProduct = this.listProduct1;
     this.menuHeight = window.innerHeight;
     this.getBookInType();
-    this.changeLoading();
   }
   async getBookInType() {
     const typeBook = {
       type: this.labelTypeBook,
     };
-    await this.apiService.getBook(typeBook).subscribe((res) => {
-      // console.log(res);
-      this.listProduct = res.data;
-    });
+    this.loadingSkeleton = true;
+    await this.apiService.getBook(typeBook).subscribe(
+      (res) => {
+        // console.log(res);
+        setTimeout(() => {
+          this.loadingSkeleton = false;
+        }, 500);
+        this.listProduct = res.data;
+      },
+      (err) => {
+        console.log(err);
+        this.loadingSkeleton = false;
+        console.log(this.loadingSkeleton);
+        this.listProduct = [];
+      }
+    );
   }
   goDetail(product) {
     this.loading = true;
@@ -287,9 +152,15 @@ export class ProductPage implements OnInit {
         break;
     }
   }
-  changeLoading() {
-    setTimeout(() => {
-      this.loadingSkeleton = true;
-    }, 1000);
+  async hanldeSearch(value) {
+    console.log(value);
+    if (value !== '') {
+      this.listProduct = this.listProduct.filter(
+        (item) => item.name.toLowerCase() === value.toLowerCase()
+      );
+    }
+    this.shadow = false;
+    this.search = false;
+    this.isClick = false;
   }
 }

@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NavigationExtras, Router } from '@angular/router';
+import { NavController, ToastController } from '@ionic/angular';
+import { AnimationOptions } from '@ionic/angular/providers/nav-controller';
+import { ApiService, ToastService } from 'src/app/services';
 import { StorageService } from 'src/app/services/storage.service';
 @Component({
   selector: 'app-edit',
@@ -15,7 +18,13 @@ export class EditPage implements OnInit {
   formMessage: any;
   formSubmitted = false;
   contentNote = '';
-  constructor(private router: Router, private storage: StorageService) {}
+  token;
+  constructor(
+    private router: Router,
+    public navCtrl: NavController,
+    private apiService: ApiService,
+    private toastCtrl: ToastService
+  ) {}
 
   async ngOnInit() {
     this.formData = new FormGroup({
@@ -28,7 +37,9 @@ export class EditPage implements OnInit {
         '',
         Validators.compose([
           Validators.required,
-          Validators.pattern(/^(03|05|07|08|09)+([0-9]{8})\b/g),
+          Validators.pattern(
+            /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/
+          ),
         ])
       ),
       address: new FormControl('', Validators.compose([Validators.required])),
@@ -71,13 +82,14 @@ export class EditPage implements OnInit {
       const currentNavigation = this.router.getCurrentNavigation();
       this.isEdit = currentNavigation.extras.state.isEdit;
       this.infor = currentNavigation.extras.state.inForAccount;
-      if (this.isEdit === 'account') {
-        this.infor = (await this.storage.getObject('AccountInformation')) || {};
-      } else {
-        const account = await this.storage.getObject('AccountInformation');
-        this.infor = account.inforDelivery;
-        this.contentNote = this.infor.note;
-      }
+      this.token = JSON.parse(localStorage.getItem('token'));
+      // if (this.isEdit === 'account') {
+      //   this.infor =  localStorage.getItem('infoAccount') || {};
+      // } else {
+      //   const infoDeli = localStorage.getItem(`infoDelivery-`);
+      //   this.infor = infoDeli;
+      //   this.contentNote = this.infor.note;
+      // }
     }
     console.log(this.infor);
     this.formData.patchValue(this.infor);
@@ -87,31 +99,63 @@ export class EditPage implements OnInit {
     if (this.formData.valid) {
       this.formSubmitted = false;
       const data = this.formData.getRawValue();
-      data.avtUrl = './assets/images/avt.jpg';
-      data.position = 'Member';
-      data.inforDelivery = {
-        name: 'Jack97',
-        phone: '0153236523',
-        address: '123456 5 trịu',
-        note: 'J97 5 trịu',
-      };
       console.log('====================================');
       console.log(data);
       console.log('====================================');
       if (this.isEdit === 'account') {
-        await this.storage.setObject('AccountInformation', data);
-        const navigationExtras: NavigationExtras = {
-          state: { isEdit: this.isEdit },
-        };
-        this.router.navigateByUrl('/account', navigationExtras);
+        await this.updateAccount(
+          {
+            name: data.name,
+            username: this.infor.username,
+            password: this.infor.password,
+            phone: data.phone,
+            status: this.infor.status,
+            address: data.address,
+            email: data.email,
+            avtUrl: this.infor.avtUrl,
+            roles: this.infor.roles,
+          },
+          this.token.access_token
+        );
       } else {
         data.note = this.contentNote;
-        await this.storage.setObject('DeliveryInformation', data);
-        const navigationExtras: NavigationExtras = {
-          state: { isEdit: this.isEdit },
+        localStorage.setItem(
+          `infoDelivery-${data.phone}`,
+          JSON.stringify({
+            ...this.infor,
+            name: data.name,
+            email: data.email,
+            address: data.address,
+            phone: data.phone,
+          })
+        );
+        const animations: AnimationOptions = {
+          animated: true,
+          animationDirection: 'back',
         };
-        this.router.navigateByUrl('/account/payment', navigationExtras);
+        await this.navCtrl.back(animations);
       }
     }
+  }
+  async updateAccount(body, token) {
+    await this.apiService.updateAccount(body, token, this.infor.id).subscribe(
+      (res) => {
+        localStorage.setItem('infoAccount', JSON.stringify(res.data));
+        this.toastCtrl.successToast('Update user Information Succesfull!');
+        const animations: AnimationOptions = {
+          animated: true,
+          animationDirection: 'back',
+        };
+        this.navCtrl.back(animations);
+      },
+      (err) => {
+        this.toastCtrl.errorToast('Cant update user infomation!');
+        const animations: AnimationOptions = {
+          animated: true,
+          animationDirection: 'back',
+        };
+        this.navCtrl.back(animations);
+      }
+    );
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
-import { ApiService } from 'src/app/services';
+import { ApiService, ToastService } from 'src/app/services';
 
 @Component({
   selector: 'app-product-detail',
@@ -18,6 +18,10 @@ export class ProductDetailPage implements OnInit {
   isLogin: any = false;
   nameCart;
   listCart = [];
+  infoAccount;
+  getAllComment: any;
+  listComment = [];
+  postComment = '';
   public slideOpts = {
     slidesPerView: 2.1,
     centeredSlides: true,
@@ -149,83 +153,17 @@ export class ProductDetailPage implements OnInit {
       },
     },
   };
-  listProductRelate: any = [
-    {
-      name: 'Amelie Vil',
-      imageURL: 'assets/images/book3.jpg',
-      rating: 4,
-      sold: 1000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      name: 'Amelie Vil',
-      imageURL: 'assets/images/book4.jpg',
-      rating: 1,
-      sold: 2000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      name: 'Amelie Vil',
-      imageURL: 'assets/images/book5.jpg',
-      rating: 2,
-      sold: 3000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      name: 'Amelie Vil',
-      imageURL: 'assets/images/book6.jpg',
-      rating: 2,
-      sold: 4000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      name: 'Amelie Vil',
-      imageURL: 'assets/images/book7.jpg',
-      rating: 3,
-      sold: 5000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-    {
-      name: 'Amelie Vil',
-      imageURL: 'assets/images/book6.jpg',
-      rating: 1,
-      sold: 2000,
-      description:
-        // eslint-disable-next-line max-len
-        'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      artist: 'Thái Duy Linh',
-      birthday: '20/09/2000',
-    },
-  ];
+  listProductRelate: any = [];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private toastCtrl: ToastService
   ) {}
   checkProductInCart(product) {
     const check = this.listCart.filter((o) => o.id === product.id);
     if (check.length === 0) {
-      this.listCart.push({...product,numBuy:1});
+      this.listCart.push({ ...product, numBuy: 1 });
       //set new Product in Cart
       localStorage.setItem(this.nameCart, JSON.stringify(this.listCart));
     }
@@ -244,20 +182,49 @@ export class ProductDetailPage implements OnInit {
         const product = currentNavigation.extras.state.item;
         this.getBookDetails(product?.id);
         const login = localStorage.getItem('infoAccount') || null;
-        const getCartLocal = JSON.parse(login);
-        console.log(getCartLocal);
+        this.infoAccount = JSON.parse(login);
         if (login !== null) {
           this.isLogin = true;
           this.getLocalCart();
         } else {
           this.isLogin = false;
         }
+        this.getBookRelated({ type: product?.type });
+        this.getComment({ idBook: product?.id });
       }
     });
   }
   async getBookDetails(id) {
     await this.apiService.getBookById(id).subscribe((res) => {
       this.productDetail = res.data;
+    });
+  }
+  async getBookRelated(type) {
+    await this.apiService.getBook(type).subscribe((res) => {
+      this.listProductRelate = res.data;
+    });
+  }
+  async getComment(body) {
+    await this.apiService.getComment(body).subscribe((res) => {
+      this.getAllComment = res.data;
+      this.listComment = this.getAllComment.filter(
+        (comment) => comment.level === 0
+      );
+      this.listComment.forEach((comment) => {
+        comment.child = [];
+      });
+      this.getAllComment.forEach((child) => {
+        if (child.level === 1) {
+          this.listComment.forEach((comment) => {
+            const idParent = child.idParent;
+            const id = comment.id.toString();
+            if (idParent === id) {
+              comment.child.push(child);
+            }
+          });
+        }
+      });
+      console.log(this.listComment);
     });
   }
 
@@ -284,15 +251,16 @@ export class ProductDetailPage implements OnInit {
       case 'cancel':
         this.shadow = false;
         this.popup = false;
+        this.popupLogin = false;
         break;
       case 'ok':
         this.shadow = false;
         this.popup = false;
         this.loading = true;
-          this.loading = false;
-          this.checkProductInCart(this.productDetail);
-          console.log(this.listCart);
-          // this.router.navigateByUrl('/product');
+        this.loading = false;
+        this.checkProductInCart(this.productDetail);
+        console.log(this.listCart);
+        // this.router.navigateByUrl('/product');
         break;
       case 'login':
         this.shadow = false;
@@ -302,6 +270,33 @@ export class ProductDetailPage implements OnInit {
           this.loading = false;
           this.router.navigateByUrl('/login');
         }, 1000);
+    }
+  }
+  sendComment() {
+    if (this.isLogin === false) {
+      this.shadow = true;
+      this.popupLogin = true;
+    } else {
+      const param = {
+        avtUser: this.infoAccount.avtUrl,
+        content: this.postComment,
+        id: null,
+        idBook: this.productDetail.id,
+        idParent: null,
+        level: 0,
+        nameUser: this.infoAccount.name,
+      };
+      console.log(param);
+      this.apiService.sendComment(param).subscribe(
+        (res) => {
+          this.toastCtrl.successToast('Send Comment Successful!');
+          this.getComment({ idBook: this.productDetail.id });
+          this.postComment = '';
+        },
+        (err) => {
+          this.toastCtrl.errorToast(err);
+        }
+      );
     }
   }
 }

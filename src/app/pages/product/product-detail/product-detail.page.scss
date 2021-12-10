@@ -126,6 +126,7 @@ ion-content {
             display: flex;
             justify-content: start;
             align-items: center;
+            margin: 5px 0;
             &-image {
               margin-right: 10px;
               width: 15%;
@@ -155,9 +156,10 @@ ion-content {
             }
           }
           &_replyCmt {
-            margin-left: 50px;
+            margin-left: 30px;
             display: flex;
             align-items: center;
+            margin-bottom: 5px;
             .cmt-item_comment-image {
               width: 15%;
               img {

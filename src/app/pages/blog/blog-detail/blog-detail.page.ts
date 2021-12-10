@@ -1,7 +1,7 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IonContent } from '@ionic/angular';
-import { ApiService } from 'src/app/services';
+import { ApiService, ToastService } from 'src/app/services';
 import { ShareService } from 'src/app/services/share.service';
 
 @Component({
@@ -13,48 +13,14 @@ export class BlogDetailPage implements OnInit {
   @ViewChild(IonContent, { static: false }) content: IonContent;
   blogDetail: any = {};
   loading: any = false;
-  listBlogRelate: any = [
-    {
-      imageUrl: 'assets/images/book.jpg',
-      name: 'Hôm nay là thứ mấy?',
-      content: 'Em không là nàng thơ, em là nàng kiểu lỡ bước',
-      paragraph: 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      day: 'Thu, 9 2021',
-    },
-    {
-      imageUrl: 'assets/images/book2.jpg',
-      name: 'Hôm nay là thứ mấy?',
-      content: 'Em không là nàng thơ, em là nàng kiểu lỡ bước',
-      paragraph: 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      day: 'Thu, 9 2021',
-    },
-    {
-      imageUrl: 'assets/images/book3.jpg',
-      name: 'Hôm nay là thứ mấy?',
-      content: 'Em không là nàng thơ, em là nàng kiểu lỡ bước',
-      paragraph: 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      day: 'Thu, 9 2021',
-    },
-    {
-      imageUrl: 'assets/images/book2.jpg',
-      name: 'Hôm nay là thứ mấy?',
-      content: 'Em không là nàng thơ, em là nàng kiểu lỡ bước',
-      paragraph: 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      day: 'Thu, 9 2021',
-    },
-    {
-      imageUrl: 'assets/images/book3.jpg',
-      name: 'Hôm nay là thứ mấy?',
-      content: 'Em không là nàng thơ, em là nàng kiểu lỡ bước',
-      paragraph: 'The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham',
-      day: 'Thu, 9 2021',
-    }
-  ];
-  constructor(private router: Router,
+  listBlogRelate: any = [];
+  constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private shareService: ShareService,
-    private apiService: ApiService
-  ) { }
+    private apiService: ApiService,
+    private toastCtrl: ToastService
+  ) {}
 
   ngOnInit() {
     this.route.queryParams.subscribe(() => {
@@ -62,11 +28,12 @@ export class BlogDetailPage implements OnInit {
         const currentNavigation = this.router.getCurrentNavigation();
         const product = currentNavigation.extras.state.item;
         this.getBlogDetails(product.id);
+        this.getBlogRelated(product.tags);
       }
     });
   }
-  getBlogDetails(id){
-    this.apiService.getBlogById(id).subscribe((res)=>{
+  getBlogDetails(id) {
+    this.apiService.getBlogById(id).subscribe((res) => {
       this.blogDetail = res.data;
     });
   }
@@ -87,5 +54,17 @@ export class BlogDetailPage implements OnInit {
     };
     await this.shareService.share(params);
   }
-
+  async getBlogRelated(type) {
+    const param = {
+      tags: type,
+    };
+    await this.apiService.getBlogRelated(param).subscribe(
+      (res) => {
+        this.listBlogRelate = res.data;
+      },
+      (err) => {
+        this.toastCtrl.errorToast('can\'t get book related!');
+      }
+    );
+  }
 }

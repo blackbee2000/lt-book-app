@@ -21,13 +21,16 @@
     <div class="blog">
       <ion-card class="blog_item" *ngFor="let item of listBlogRelate" (click)="showBlogRelate(item)">
         <div class="blog_item-image">
-          <img [src]="item.imageUrl" alt="blog-image">
+          <img [src]="item.imgUrl" alt="blog-image">
         </div>
         <div class="blog_item-grey"></div>
         <div class="blog_item-description">
-          <ion-text>{{item.name}}</ion-text>
-          <p class="h10">{{item.content}}</p>
-          <p class="h10" style="text-align: right; padding-right: 10px;">{{item.day}}</p>
+          <ion-text>{{item.title}}</ion-text>
+          <p class="h10" style="font-size: 9px;line-height: 11.15px; text-overflow: ellipsis;
+          overflow: hidden;
+          height: 40%;
+          white-space: wrap;">{{item.content}}</p>
+          <p class="h10" style="text-align: right; padding-right: 10px;">{{item.createAt}}</p>
         </div>
         <img class="blog_item-flag" src="assets/images/flag.png" alt="flag">
       </ion-card>

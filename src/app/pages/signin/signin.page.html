@@ -4,41 +4,99 @@
     <img src="./assets/images/book.jpg" alt="image1" class="img imgTwo">
   </div>
   <ion-header class="ion-no-border">
-    <app-header 
-    [menuHeight]="menuHeight"></app-header>
+    <app-header [menuHeight]="menuHeight"></app-header>
   </ion-header>
-  <ion-content>
+  <ion-content [ngStyle]="{ height: menuHeight + 'px'}">
     <div class="container">
       <div class="form">
         <div class="title">
-          SignIn
+          Create Account
         </div>
-        <div class="form-control">
-          <ion-input placeholder="Username">
-          </ion-input>
-          <img src="./assets/icon/user.svg" />
-        </div>
-        <div class="form-control">
-          <ion-input placeholder="Password" type="Password">
-          </ion-input>
-          <img src="./assets/icon/lock.svg" />
-        </div>
-        <div class="form-control">
-          <ion-input placeholder="Email">
-          </ion-input>
-          <img src="./assets/icon/mail.svg" />
-        </div>
-        <div class="form-control">
-          <ion-input placeholder="Phone" type="Number">
-          </ion-input>
-          <img src="./assets/icon/telephone.svg" />
-        </div>
-        <div class="form-control">
-          <ion-input placeholder="Address">
-          </ion-input>
-          <img src="./assets/icon/pin.svg" />
-        </div>
-        <div class="button">Login</div>
+        <form [formGroup]="formData">
+          <div class="form-value">
+            <div class="form-control">
+              <ion-input placeholder="Username" formControlName="username">
+              </ion-input>
+              <img src="./assets/icon/user.svg" />
+            </div>
+            <ng-container *ngFor="let validation of formMessage['username']">
+              <div class="form-error-message"
+                *ngIf="formSubmitted && formData.get('username')['hasError'](validation.type)">
+                <ion-icon name="warning"></ion-icon>
+                <span>{{validation.message}}</span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="form-value">
+            <div class="form-control">
+              <ion-input placeholder="Password" type="Password" formControlName="password">
+              </ion-input>
+              <img src="./assets/icon/lock.svg" />
+            </div>
+            <ng-container *ngFor="let validation of formMessage['password']">
+              <div class="form-error-message"
+                *ngIf="formSubmitted && formData.get('password')['hasError'](validation.type)">
+                <ion-icon name="warning"></ion-icon>
+                <span>{{validation.message}}</span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="form-value">
+            <div class="form-control">
+              <ion-input placeholder="Name" formControlName="name">
+              </ion-input>
+              <img src="./assets/icon/user.svg" />
+            </div>
+            <ng-container *ngFor="let validation of formMessage['name']">
+              <div class="form-error-message" *ngIf="formSubmitted && formData.get('name')['hasError'](validation.type)">
+                <ion-icon name="warning"></ion-icon>
+                <span>{{validation.message}}</span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="form-value">
+            <div class="form-control">
+              <ion-input placeholder="Email" formControlName="email">
+              </ion-input>
+              <img src="./assets/icon/mail.svg" />
+            </div>
+            <ng-container *ngFor="let validation of formMessage['email']">
+              <div class="form-error-message" *ngIf="formSubmitted && formData.get('email')['hasError'](validation.type)">
+                <ion-icon name="warning"></ion-icon>
+                <span>{{validation.message}}</span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="form-value">
+            <div class="form-control">
+              <ion-input placeholder="Phone" type="Number" formControlName="phone">
+              </ion-input>
+              <img src="./assets/icon/telephone.svg" />
+            </div>
+            <ng-container *ngFor="let validation of formMessage['phone']">
+              <div class="form-error-message"
+                *ngIf="formSubmitted && formData.get('phone')['hasError'](validation.type)">
+                <ion-icon name="warning"></ion-icon>
+                <span>{{validation.message}}</span>
+              </div>
+            </ng-container>
+          </div>
+          <div class="form-value">
+            <div class="form-control">
+              <ion-input placeholder="Address" formControlName="address">
+              </ion-input>
+              <img src="./assets/icon/pin.svg" />
+            </div>
+            <ng-container *ngFor="let validation of formMessage['address']">
+              <div class="form-error-message"
+                *ngIf="formSubmitted && formData.get('address')['hasError'](validation.type)">
+                <ion-icon name="warning"></ion-icon>
+                <span>{{validation.message}}</span>
+              </div>
+            </ng-container>
+          </div>
+        </form>
+        <div class="button" (click)="create()">Login</div>
 
       </div>
     </div>
