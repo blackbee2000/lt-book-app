@@ -241,7 +241,11 @@ ion-content {
             color: #fff;
             font-family: ESB;
             font-size: 18px;
-            width: 100%;
+            width: 80%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            mix-blend-mode: difference;
           }
         }
       }

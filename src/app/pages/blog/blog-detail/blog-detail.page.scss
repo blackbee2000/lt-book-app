@@ -118,7 +118,10 @@ ion-header {
           ion-text {
             font-family: ESB;
             color: #000;
-            font-size: 18px;
+            font-size: 16px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
             @media only screen and (max-width: 320px) {
               font-size: 16px;
             }
@@ -127,6 +130,9 @@ ion-header {
             margin: 0;
             font-family: EN;
             color: #000;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
           }
         }
       }
