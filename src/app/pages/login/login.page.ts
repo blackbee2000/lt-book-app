@@ -7,7 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { NavController } from '@ionic/angular';
 import { AnimationOptions } from '@ionic/angular/providers/nav-controller';
-
+import '@codetrix-studio/capacitor-google-auth';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -29,6 +30,7 @@ export class LoginPage implements OnInit {
     private toastCtrl: ToastService
   ) {}
   ngOnInit() {
+    GoogleAuth.init();
     this.menuHeight = window.innerHeight;
     this.formData = new FormGroup({
       username: new FormControl('', Validators.compose([Validators.required])),
@@ -62,14 +64,14 @@ export class LoginPage implements OnInit {
       const body = new URLSearchParams();
       body.set('username', data.username);
       body.set('password', data.password);
+      console.log(data);
       await this.apiService.login(body.toString()).subscribe(
         async (response) => {
           this.authen = response;
           localStorage.setItem('token', JSON.stringify(response));
           this.toastCtrl.successToast('Login Success!');
-          await this.apiService
-            .getInfoUser(this.authen.access_token)
-            .subscribe(async (res) => {
+          await this.apiService.getInfoUser(this.authen.access_token).subscribe(
+            async (res) => {
               localStorage.setItem('infoAccount', JSON.stringify(res.data));
               const checkCart = localStorage.getItem(res.data.phone);
               if (checkCart === null) {
@@ -83,12 +85,14 @@ export class LoginPage implements OnInit {
                 animationDirection: 'back',
               };
               this.navCtrl.back(animations);
-            },(error)=>{
+            },
+            (error) => {
               this.toastCtrl.errorToast('Can`t get information Account!');
-            });
+            }
+          );
         },
         (error) => {
-          if(error.status === 403){
+          if (error.status === 403) {
             this.toastCtrl.errorToast('Wrong login information!');
           }
         }
@@ -97,5 +101,15 @@ export class LoginPage implements OnInit {
     } else {
       alert('Sai thông tin!');
     }
+  }
+  async loginGoogle() {
+    const ggUser = await GoogleAuth.signIn();
+    console.log('user:', ggUser);
+    await this.formData.patchValue({
+      ...ggUser,
+      username: ggUser.email,
+      password: ggUser.id,
+    });
+    await this.login();
   }
 }

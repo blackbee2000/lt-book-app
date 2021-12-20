@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
   }
   clickMenu() {
     this.showMenu = !this.showMenu;
+    this.infoAccount = localStorage.getItem('infoAccount' || null);
   }
   async login() {
     this.showMenu = !this.showMenu;

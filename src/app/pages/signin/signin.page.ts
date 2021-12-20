@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
 @Component({
   selector: 'app-signin',
@@ -15,9 +16,11 @@ export class SigninPage implements OnInit {
   formSubmitted = false;
   authen: any = {};
   listCart = [];
-  constructor(private apiService: ApiService,private router: Router,) {}
+  imgavt = '';
+  constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit() {
+    GoogleAuth.init();
     this.menuHeight = window.innerHeight;
     this.formData = new FormGroup({
       username: new FormControl('', Validators.compose([Validators.required])),
@@ -98,7 +101,7 @@ export class SigninPage implements OnInit {
       ];
       data.phone = '0' + data.phone;
       data.status = 'active';
-      data.avtUrl = null;
+      data.avtUrl = this.imgavt;
       data.id = null;
       console.log('data', data);
       await this.apiService.createAccount(data).subscribe(async (res) => {
@@ -111,10 +114,13 @@ export class SigninPage implements OnInit {
           await this.apiService
             .getInfoUser(this.authen.access_token)
             .subscribe(async (respo) => {
-              localStorage.setItem('infoAccount', JSON.stringify(respo.data));
+              await localStorage.setItem(
+                'infoAccount',
+                JSON.stringify(respo.data)
+              );
               const checkCart = localStorage.getItem(respo.data.phone);
               if (checkCart === null) {
-                localStorage.setItem(
+                await localStorage.setItem(
                   respo.data.phone,
                   JSON.stringify(this.listCart)
                 );
@@ -124,5 +130,18 @@ export class SigninPage implements OnInit {
         });
       });
     }
+  }
+  async createGoogle() {
+    const ggUser = await GoogleAuth.signIn();
+    console.log('user:', ggUser);
+    this.imgavt = ggUser.imageUrl;
+    this.formData.patchValue({
+      ...ggUser,
+      username: ggUser.email,
+      password: ggUser.id,
+      avtUrl: ggUser.imageUrl,
+    });
+    this.formData.controls.password.disable();
+    this.formData.controls.username.disable();
   }
 }

@@ -24,6 +24,9 @@ export class ApiService {
   login(params): Observable<any> {
     return this.http.post(`${this.url}/login`, params, options);
   }
+  loginWithGoogle(): Observable<any> {
+    return this.http.get(`${this.url}/user/loginGoogle`);
+  }
   getInfoUser(token): Observable<any> {
     return this.http.get(`${this.url}/user/info`, {
       headers: {
@@ -100,7 +103,7 @@ export class ApiService {
   createAccount(body): Observable<any> {
     return this.http.post(`${this.url}/user/save`, body);
   }
-  updateAccount(body,token,idUser): Observable<any> {
+  updateAccount(body, token, idUser): Observable<any> {
     return this.http.put(`${this.url}/user/update?id=${idUser}`, body, {
       headers: {
         // eslint-disable-next-line @typescript-eslint/naming-convention

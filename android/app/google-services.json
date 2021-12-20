@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1082823094698",
+    "project_id": "ltbook",
+    "storage_bucket": "ltbook.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1082823094698:android:ce81a392f14556e0d97bd3",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1082823094698-martihnh5qukqnrjh8r8j5rvs6qntftb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ionic.starter",
+            "certificate_hash": "d1a564096fdb6a27634866f56bdfa66c47b68d14"
+          }
+        },
+        {
+          "client_id": "1082823094698-rsc5oo8g4thg88q5tdsr1mufgf73kkss.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHdGJkKGdaq29zwUFZEPEBSLc93pjkULM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1082823094698-rsc5oo8g4thg88q5tdsr1mufgf73kkss.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
