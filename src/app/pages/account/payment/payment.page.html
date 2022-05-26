@@ -111,7 +111,7 @@
       <span class="info">Receiver: {{infoDelivery.name}}</span>
       <span class="info">Address: {{infoDelivery.address}}</span>
       <span class="info">Phone number: {{infoDelivery.phone}}</span>
-      <span style="font-weight: 500; margin: 10px 0;">-------⚡️ Bill Information ⚡️-------</span>
+      <span style="font-weight: 500; margin: 10px 0; font-family: 'AV';">-------⚡️ Bill Information ⚡️-------</span>
       <div *ngFor="let item of infoBillDetails;index as i" style="width:100%;">
         <div class="book"
           style="width: 100%; height: 85px; padding: 10px; display: flex; align-items: center; justify-content: space-between;">
@@ -123,18 +123,20 @@
             <div class="book_info-name" style="font-weight:600;font-size: 14px;">
               {{item.nameBook}}
             </div>
-            <div class="book_info-amount" style="font-size: 12px;">
+            <div class="book_info-amount" style="font-size: 12px; ">
               Amount: {{item.amount}}
             </div>
           </div>
         </div>
       </div>
-      <span>Total: {{bill.total}}</span>
-      <span>Thank you</span>
+      <span style="font-family: 'AV';">Total: {{bill.total}}</span>
+      <span style="font-family: 'AV';">Thank you</span>
       <span>❤️❤️❤️</span>
     </div>
     <div class="btn" style="display: flex; align-items: center; justify-content: center; width: 100%;">
-      <div class="btn-ok" style="padding: 10px; width: 40% ;border-radius: 25px; border: 1px solid #000; text-align: center;" (click)="NavigateToAccount()">OK</div>
+      <div class="btn-ok"
+        style="padding: 10px; width: 40% ;border-radius: 25px; border: 1px solid #000; text-align: center;  font-family: 'AV';"
+        (click)="NavigateToAccount()">OK</div>
     </div>
   </div>
   <div [ngClass]="{'active' : show}" class="shadow" style="position: fixed;z-index: 2; ;top: 0; left: 0;

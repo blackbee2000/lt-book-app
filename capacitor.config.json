@@ -1,6 +1,13 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "lt-book-app",
-	"webDir": "www",
-	"bundledWebRuntime": false
+  "appId": "io.ionic.starter",
+  "appName": "lt-book-app",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "GoogleAuth": {
+      "scopes": ["profile", "email"],
+      "serverClientId": "REPLACEME.app.googleusercontent.com",
+      "forceCodeForRefreshToken": true
+    }
+  }
 }

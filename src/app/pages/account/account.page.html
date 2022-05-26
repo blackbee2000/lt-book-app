@@ -54,28 +54,32 @@
     <div [ngSwitch]="type" class="project">
       <div *ngSwitchCase="'cart'" class="project-ground">
         <div *ngIf="!loading;else loadingtemplate">
-          <div *ngFor="let item of cartProduct;index as i" class="product" (click)="chooseBook(item)">
-            <div class="product-checkbox">
-              <ion-checkbox slot="end" [(ngModel)]="item.isCheck"></ion-checkbox>
-            </div>
-            <div class="product_information">
-              <div class="product_information-img">
-                <img [src]=item.imageBook alt="">
+          <div *ngIf="cartProduct?.length === 0; else haveProd">
+            Không có sản phẩm
+          </div>
+          <ng-template #haveProd>
+            <div *ngFor="let item of cartProduct;index as i" class="product" (click)="chooseBook(item)">
+              <div class="product-checkbox">
+                <ion-checkbox slot="end" [(ngModel)]="item.isCheck"></ion-checkbox>
               </div>
-              <div class="product_information-item">
-                <div class="name">{{item.name}}</div>
-                <div class="prop">Price: {{convertMoney(item.price)}}</div>
-                <div class="prop">Rating: <ng-rating-bar disabled="true" [value]="item.rating" [ratingCount]="5"
-                    colorActive="#FFC107" [styles]="{fontSize: innerWidth > 320 ? '18px' : '12px', margin: '-5px'}">
-                  </ng-rating-bar>
+              <div class="product_information">
+                <div class="product_information-img">
+                  <img [src]=item.imageBook alt="">
+                </div>
+                <div class="product_information-item">
+                  <div class="name">{{item.name}}</div>
+                  <div class="prop">Price: {{convertMoney(item.price)}}</div>
+                  <div class="prop">Rating: <ng-rating-bar disabled="true" [value]="item.rating" [ratingCount]="5"
+                      colorActive="#FFC107" [styles]="{fontSize: innerWidth > 320 ? '18px' : '12px', margin: '-5px'}">
+                    </ng-rating-bar>
+                  </div>
+                </div>
+                <div class="product-total">
+                  {{item.artistName}}
                 </div>
               </div>
-              <div class="product-total">
-                {{item.artistName}}
-                <!-- Total: {{item.price * item.quantity}} -->
-              </div>
             </div>
-          </div>
+          </ng-template>
         </div>
         <ng-template #loadingtemplate>
           <div *ngFor="let item of [1,2,3,4]" class="product" (click)="chooseBook(item)">
@@ -100,26 +104,31 @@
       </div>
       <div *ngSwitchCase="'bought'" class="project-ground">
         <div *ngIf="!loading;else loadingtemplate">
-          <div *ngFor="let item of boughtProduct;index as i" class="product" (click)="chooseBook(item)">
-            <div class="product-checkbox">
-              <ion-checkbox slot="end" [(ngModel)]="item.isCheck"></ion-checkbox>
-            </div>
-            <div class="product_information">
-              <div class="product_information-img">
-                <img [src]=item.imageBook alt="">
+          <div *ngIf="boughtProduct?.length === 0; else haveProdBought">
+            Không có sản phẩm
+          </div>
+          <ng-template #haveProdBought>
+            <div *ngFor="let item of boughtProduct;index as i" class="product" (click)="chooseBook(item)">
+              <div class="product-checkbox">
+                <ion-checkbox slot="end" [(ngModel)]="item.isCheck"></ion-checkbox>
               </div>
-              <div class="product_information-item">
-                <div class="name">{{item.name}}</div>
-                <div class="prop">Price: {{convertMoney(item.price)}}</div>
-                <div class="prop">Rating: <ng-rating-bar disabled="true" [value]="item.rating" [ratingCount]="5"
-                    colorActive="#FFC107" [styles]="{fontSize: '18px', margin: '-5px'}"></ng-rating-bar>
+              <div class="product_information">
+                <div class="product_information-img">
+                  <img [src]=item.imageBook alt="">
+                </div>
+                <div class="product_information-item">
+                  <div class="name">{{item.name}}</div>
+                  <div class="prop">Price: {{convertMoney(item.price)}}</div>
+                  <div class="prop">Rating: <ng-rating-bar disabled="true" [value]="item.rating" [ratingCount]="5"
+                      colorActive="#FFC107" [styles]="{fontSize: '18px', margin: '-5px'}"></ng-rating-bar>
+                  </div>
+                </div>
+                <div class="product-total">
+                  {{item.artistName}}
                 </div>
               </div>
-              <div class="product-total">
-                {{item.artistName}}
-              </div>
             </div>
-          </div>
+          </ng-template>
         </div>
         <ng-template #loadingtemplate>
           <div *ngFor="let item of [1,2]" class="product" (click)="chooseBook(item)">
@@ -144,31 +153,36 @@
       </div>
       <div *ngSwitchCase="'yourOrder'" class="project-ground">
         <div *ngIf="!loading;else loadingtemplate">
-          <div *ngFor="let item of listBillProduct;index as i" class="product" (click)="billDetail(item)">
-            <div class="product_information" style="width:100%">
-              <div *ngIf="item.status === 'payment';else nowTemplate" class="product_information-img done">
-                <img src="./assets/icon/check.svg" alt="done" class="icon">
-              </div>
-              <ng-template #nowTemplate>
-                <div class="product_information-img now">
-                  <img src="./assets/icon/box.svg" alt="now" class="icon">
-                </div>
-              </ng-template>
-              <div class="product_information-item">
-                <div class="name">{{item.code}}</div>
-                <div class="prop">Total: {{convertMoney(item.total)}}</div>
-                <div class="prop">Order daily: {{item.date}}</div>
-              </div>
-              <div *ngIf="item.status==='payment';else delivering" class="product-total" style="color: #1EA22B;">
-                Payment
-              </div>
-              <ng-template #delivering>
-                <div class="product-total" style="color: #E6CC06;">
-                  NoPayment
-                </div>
-              </ng-template>
-            </div>
+          <div *ngIf="listBillProduct?.length === 0; else haveBill">
+            Không có đơn hàng!
           </div>
+          <ng-template #haveBill>
+            <div *ngFor="let item of listBillProduct;index as i" class="product" (click)="billDetail(item)">
+              <div class="product_information" style="width:100%">
+                <div *ngIf="item.status === 'payment';else nowTemplate" class="product_information-img done">
+                  <img src="./assets/icon/check.svg" alt="done" class="icon">
+                </div>
+                <ng-template #nowTemplate>
+                  <div class="product_information-img now">
+                    <img src="./assets/icon/box.svg" alt="now" class="icon">
+                  </div>
+                </ng-template>
+                <div class="product_information-item">
+                  <div class="name">{{item.code}}</div>
+                  <div class="prop">Total: {{convertMoney(item.total)}}</div>
+                  <div class="prop">Order daily: {{item.date}}</div>
+                </div>
+                <div *ngIf="item.status==='payment';else delivering" class="product-total" style="color: #1EA22B;">
+                  Payment
+                </div>
+                <ng-template #delivering>
+                  <div class="product-total" style="color: #E6CC06;">
+                    NoPayment
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </ng-template>
         </div>
         <ng-template #loadingtemplate>
           <div *ngFor="let item of [1,2,3]" class="product" (click)="chooseBook(item)">

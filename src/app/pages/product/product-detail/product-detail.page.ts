@@ -234,6 +234,8 @@ export class ProductDetailPage implements OnInit {
       this.loading = false;
       this.content.scrollToTop();
       this.productDetail = item;
+      this.listComment = [];
+      this.getComment({ idBook: item.id });
     }, 1000);
   }
 
